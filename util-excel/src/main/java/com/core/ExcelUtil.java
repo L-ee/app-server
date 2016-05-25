@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -35,7 +34,6 @@ public class ExcelUtil {
      * @throws IllegalArgumentException
      * @Description: 将Map里的集合对象数据输出Excel数据流
      */
-    @SuppressWarnings({"unchecked"})
     public static void export2Excel(ExportSetInfo setInfo) throws
             IOException, IllegalArgumentException, IllegalAccessException {
         init();
@@ -108,7 +106,6 @@ public class ExcelUtil {
     /**
      * @Description: 自动调整列宽
      */
-    @SuppressWarnings("unused")
     private static void adjustColumnSize(HSSFSheet[] sheets, int sheetNum,
                                          String[] fieldNames) {
         for (int i = 0; i < fieldNames.length + 1; i++) {
@@ -119,8 +116,7 @@ public class ExcelUtil {
     /**
      * @Description: 创建标题行(需合并单元格)
      */
-    private static void createTableTitleRow(ExportSetInfo setInfo,
-                                            HSSFSheet[] sheets, int sheetNum) {
+    private static void createTableTitleRow(ExportSetInfo setInfo, HSSFSheet[] sheets, int sheetNum) {
         CellRangeAddress titleRange = new CellRangeAddress(0, 0, 0,
                 setInfo.getFieldNames().get(sheetNum).length);
         sheets[sheetNum].addMergedRegion(titleRange);
@@ -134,10 +130,8 @@ public class ExcelUtil {
     /**
      * @Description: 创建日期行(需合并单元格)
      */
-    private static void createTableDateRow(ExportSetInfo setInfo,
-                                           HSSFSheet[] sheets, int sheetNum) {
-        CellRangeAddress dateRange = new CellRangeAddress(1, 1, 0,
-                setInfo.getFieldNames().get(sheetNum).length);
+    private static void createTableDateRow(ExportSetInfo setInfo, HSSFSheet[] sheets, int sheetNum) {
+        CellRangeAddress dateRange = new CellRangeAddress(1, 1, 0, setInfo.getFieldNames().get(sheetNum).length);
         sheets[sheetNum].addMergedRegion(dateRange);
         HSSFRow dateRow = sheets[sheetNum].createRow(1);
         dateRow.setHeight((short) 350);
@@ -149,8 +143,7 @@ public class ExcelUtil {
     /**
      * @Description: 创建表头行(需合并单元格)
      */
-    private static void creatTableHeadRow(ExportSetInfo setInfo,
-                                          HSSFSheet[] sheets, int sheetNum) {
+    private static void creatTableHeadRow(ExportSetInfo setInfo, HSSFSheet[] sheets, int sheetNum) {
         // 表头
         HSSFRow headRow = sheets[sheetNum].createRow(2);
         headRow.setHeight((short) 350);
@@ -291,86 +284,6 @@ public class ExcelUtil {
         contentFont.setBoldweight(Font.BOLDWEIGHT_NORMAL);
         contentFont.setCharSet(Font.DEFAULT_CHARSET);
         contentFont.setColor(IndexedColors.BLUE_GREY.index);
-    }
-
-
-    /**
-     * @Description: 封装Excel导出的设置信息
-     * @author: 谭又中
-     */
-    public static class ExportSetInfo {
-        @SuppressWarnings("unchecked")
-        private LinkedHashMap<String, List> objsMap;
-
-        private String[] titles;
-
-        private List<String[]> headNames;
-
-        private List<String[]> fieldNames;
-
-        private OutputStream out;
-
-
-        @SuppressWarnings("unchecked")
-        public LinkedHashMap<String, List> getObjsMap() {
-            return objsMap;
-        }
-
-        /**
-         * @param objsMap 导出数据
-         *               <p/>
-         *               泛型
-         *               String : 代表sheet名称
-         *               List : 代表单个sheet里的所有行数据
-         */
-        @SuppressWarnings("unchecked")
-        public void setObjsMap(LinkedHashMap<String, List> objsMap) {
-            this.objsMap = objsMap;
-        }
-
-        public List<String[]> getFieldNames() {
-            return fieldNames;
-        }
-
-        /**
-         * @param fieldNames 对应每个sheet里的每行数据的对象的属性名称
-         */
-        public void setFieldNames(List<String[]> fieldNames) {
-            this.fieldNames = fieldNames;
-        }
-
-        public String[] getTitles() {
-            return titles;
-        }
-
-        /**
-         * @param titles 对应每个sheet里的标题，即顶部大字
-         */
-        public void setTitles(String[] titles) {
-            this.titles = titles;
-        }
-
-        public List<String[]> getHeadNames() {
-            return headNames;
-        }
-
-        /**
-         * @param headNames 对应每个页签的表头的每一列的名称
-         */
-        public void setHeadNames(List<String[]> headNames) {
-            this.headNames = headNames;
-        }
-
-        public OutputStream getOut() {
-            return out;
-        }
-
-        /**
-         * @param out Excel数据将输出到该输出流
-         */
-        public void setOut(OutputStream out) {
-            this.out = out;
-        }
     }
 
 
