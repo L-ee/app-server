@@ -34,8 +34,7 @@ public class ExcelUtil {
      * @throws IllegalArgumentException
      * @Description: 将Map里的集合对象数据输出Excel数据流
      */
-    public static void export2Excel(ExportSetInfo setInfo) throws
-            IOException, IllegalArgumentException, IllegalAccessException {
+    public static void export2Excel(ExportSetInfo setInfo) throws IOException, IllegalArgumentException, IllegalAccessException {
         init();
         Set<Map.Entry<String, List>> set = setInfo.getObjsMap().entrySet();
         String[] sheetNames = new String[setInfo.getObjsMap().size()];
@@ -106,8 +105,7 @@ public class ExcelUtil {
     /**
      * @Description: 自动调整列宽
      */
-    private static void adjustColumnSize(HSSFSheet[] sheets, int sheetNum,
-                                         String[] fieldNames) {
+    private static void adjustColumnSize(HSSFSheet[] sheets, int sheetNum, String[] fieldNames) {
         for (int i = 0; i < fieldNames.length + 1; i++) {
             sheets[sheetNum].autoSizeColumn(i, true);
         }
@@ -117,8 +115,7 @@ public class ExcelUtil {
      * @Description: 创建标题行(需合并单元格)
      */
     private static void createTableTitleRow(ExportSetInfo setInfo, HSSFSheet[] sheets, int sheetNum) {
-        CellRangeAddress titleRange = new CellRangeAddress(0, 0, 0,
-                setInfo.getFieldNames().get(sheetNum).length);
+        CellRangeAddress titleRange = new CellRangeAddress(0, 0, 0, setInfo.getFieldNames().get(sheetNum).length);
         sheets[sheetNum].addMergedRegion(titleRange);
         HSSFRow titleRow = sheets[sheetNum].createRow(0);
         titleRow.setHeight((short) 800);
