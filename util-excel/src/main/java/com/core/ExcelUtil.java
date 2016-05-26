@@ -29,6 +29,17 @@ public class ExcelUtil {
     private static CellStyle contentStyle;     // 内容行样式
     private static Font contentFont;            // 内容行字体
 
+
+    public static void main(String[] args) throws IOException, IllegalAccessException {
+        ExportSetInfo info = new ExportSetInfo();
+
+
+
+        ExcelUtil.export2Excel(info);
+
+
+    }
+
     /**
      * @throws IllegalAccessException
      * @throws IllegalArgumentException

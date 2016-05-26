@@ -17,8 +17,6 @@ import java.util.List;
  */
 public class ExcelUtil {
 
-
-    //%%%%%%%%-------常量部分 开始----------%%%%%%%%%
     /**
      * 默认的开始读取的行位置为第一行（索引值为0）
      */
@@ -69,10 +67,6 @@ public class ExcelUtil {
      */
     private final static boolean PRINT_MSG = true;
 
-    //%%%%%%%%-------常量部分 结束----------%%%%%%%%%
-
-
-    //%%%%%%%%-------字段部分 开始----------%%%%%%%%%
     /**
      * Excel文件路径
      */
@@ -133,10 +127,6 @@ public class ExcelUtil {
      */
     private boolean printMsg = PRINT_MSG;
 
-
-    //%%%%%%%%-------字段部分 结束----------%%%%%%%%%
-
-
     public static void main(String[] args) {
         ExcelUtil eu = new ExcelUtil();
 
@@ -148,14 +138,13 @@ public class ExcelUtil {
         List<Row> rowList;
         try {
             rowList = eu.readExcel(src_xlspath);
-            //eu.writeExcel_xls(rowList, src_xlspath, dist_xlsPath);
+            eu.writeExcel_xls(rowList, src_xlspath, dist_xlsPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public ExcelUtil(){
-
     }
 
     public ExcelUtil(String excelPath){

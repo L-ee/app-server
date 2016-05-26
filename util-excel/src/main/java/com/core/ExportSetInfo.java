@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class ExportSetInfo {
 
-    @SuppressWarnings("unchecked")
     private LinkedHashMap<String, List> objsMap;
 
     private String[] titles;
@@ -20,7 +19,6 @@ public class ExportSetInfo {
 
     private OutputStream out;
 
-
     @SuppressWarnings("unchecked")
     public LinkedHashMap<String, List> getObjsMap() {
         return objsMap;
@@ -28,12 +26,9 @@ public class ExportSetInfo {
 
     /**
      * @param objsMap 导出数据
-     *               <p/>
-     *               泛型
-     *               String : 代表sheet名称
-     *               List : 代表单个sheet里的所有行数据
+     * String : 代表sheet名称
+     * List : 代表单个sheet里的所有行数据
      */
-    @SuppressWarnings("unchecked")
     public void setObjsMap(LinkedHashMap<String, List> objsMap) {
         this.objsMap = objsMap;
     }
