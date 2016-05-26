@@ -1,19 +1,18 @@
 package com;
 
 import com.coree.ExcelUtil;
-import org.junit.Before;
-
+import org.junit.Test;
 
 import java.io.IOException;
 
 /**
  * Created by loovee1 on 2016/5/25.
  */
-public class Test {
+public class TestExcel {
 
 
 
-    @org.junit.Test
+    @Test
     public void testRead() {
         try {
 
