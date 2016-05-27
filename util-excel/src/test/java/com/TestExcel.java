@@ -1,9 +1,11 @@
 package com;
 
 import com.coree.ExcelUtil;
-import org.junit.Test;
+
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by loovee1 on 2016/5/25.
@@ -12,7 +14,7 @@ public class TestExcel {
 
 
 
-    @Test
+    //@Test
     public void testRead() {
         try {
 
@@ -37,6 +39,9 @@ public class TestExcel {
             eu = eu.RestoreSettings();//还原设定
             eu.setOnlyReadOneSheet(false);
             eu.readExcel();
+
+
+            new ArrayList();
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
