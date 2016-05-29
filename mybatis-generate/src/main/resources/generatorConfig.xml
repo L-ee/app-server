@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <properties resource="jdbc.properties"/>
+
+    <classPathEntry location="${jdbc.location}"/>
+
+    <context id="test2" targetRuntime="MyBatis3">
+
+        <!--关于注释-->
+        <commentGenerator>
+            <!--是否取消注释-->
+            <property name="suppressAllComments" value="true"/>
+            <!--是否生成注释代时间戳-->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!--jdbc连接-->
+        <jdbcConnection driverClass="${jdbc.driver}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}" password="${jdbc.password}"/>
+
+        <javaModelGenerator targetPackage="app.server.core.model.user"
+                            targetProject="D:\workspace\MavenMicrMessageOrm\src\main\java">
+            <!-- 是否在当前路径下新加一层schema,eg：false路径com.joka.model， true:com.joka.model.[schemaName]  schemaName指代的是数据库名-->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成mapxml文件，数据库语句和对应的映射文件-->
+
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="D:\workspace\MavenMicrMessageOrm\src\main\resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="app.server.core.persistence.mybatis"  targetProject="D:\workspace\MavenMicrMessageOrm\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+            <table  tableName="t_gold_detail"
+                    domainObjectName="GoldDetail"
+                    enableCountByExample="false"
+                    enableUpdateByExample="false"
+                    enableDeleteByExample="false"
+                    enableSelectByExample="false"
+                    selectByExampleQueryId="false" ></table>
+
+    </context>
+</generatorConfiguration>
