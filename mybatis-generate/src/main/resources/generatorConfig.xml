@@ -24,7 +24,7 @@
                         userId="${jdbc.user}" password="${jdbc.password}"/>
 
         <javaModelGenerator targetPackage="app.server.core.model.user"
-                            targetProject="D:\workspace\MavenMicrMessageOrm\src\main\java">
+                            targetProject="D:\workspace\app-util\mybatis-generate\src\main\java">
             <!-- 是否在当前路径下新加一层schema,eg：false路径com.joka.model， true:com.joka.model.[schemaName]  schemaName指代的是数据库名-->
             <property name="enableSubPackages" value="true"/>
             <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
@@ -34,17 +34,18 @@
         <!--生成mapxml文件，数据库语句和对应的映射文件-->
 
         <sqlMapGenerator targetPackage="mapper"
-                         targetProject="D:\workspace\MavenMicrMessageOrm\src\main\resources">
+                         targetProject="D:\workspace\app-util\mybatis-generate\src\main\resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="app.server.core.persistence.mybatis"  targetProject="D:\workspace\MavenMicrMessageOrm\src\main\java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="app.server.core.persistence.mybatis"
+                             targetProject="D:\workspace\app-util\mybatis-generate\src\main\java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-            <table  tableName="t_gold_detail"
-                    domainObjectName="GoldDetail"
+            <table  tableName="people"
+                    domainObjectName="People"
                     enableCountByExample="false"
                     enableUpdateByExample="false"
                     enableDeleteByExample="false"
