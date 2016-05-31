@@ -10,7 +10,7 @@
     <modules>
         <module>util-excel</module>
         <module>activemq</module>
-        <module>JavaUtils</module>
+        <module>app-server-common</module>
         <module>mybatis-generate</module>
         <module>app-server-ifs</module>
     </modules>
