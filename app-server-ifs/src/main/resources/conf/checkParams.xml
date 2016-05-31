@@ -1,0 +1,1072 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- d:接口方法名 name:需要验证的属性名 
+      maxLength:最大长度,如果最大长度小于1就不验证；
+      isNull:是否可以为空，1:是，0：否 
+	 type:属性名的类型，支持String，int，long,json,jsonArr
+	 isValid:tokenId是否有效性验证，1：验证有效性，0：不需要验证有效性 
+	 regular:正则表达式，如：特殊字符，枚举类型的正则表达式("^[1-9][0-9]?$") 后期可以扩展统一验证日期格式等。 -->
+<body>
+
+	<msg method="/get_upload_token">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="32"/>
+		<attribute name="type" maxLength="1" isNull="0" type="String"  minLength="1"/>
+		<attribute name="cover_upload" maxLength="1" isNull="0" type="String"  minLength="0"/>
+		<attribute name="file_name" maxLength="512" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/get_download_token">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="32"/>
+		<attribute name="url" maxLength="512" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<!-- 用户 -->
+	<msg method="/user/check_login_id">
+		<attribute name="login_id" maxLength="20" isNull="0" type="String"  minLength="32"/>
+	</msg>
+	
+	<msg method="/code/get">
+		<attribute name="login_id" maxLength="20" isNull="0" type="String"  minLength="11"/>
+		<attribute name="type" maxLength="1" isNull="0" type="String"  minLength="1"/>
+	</msg>
+	
+	<msg method="/code/check">
+		<attribute name="login_id" maxLength="20" isNull="0" type="String"  minLength="11"/>
+		<attribute name="code" maxLength="6" isNull="0" type="String"  minLength="6"/>
+	</msg>
+	
+	<msg method="/account/reg">
+		<attribute name="login_id" maxLength="20" isNull="0" type="String"  minLength="11"/>
+		<attribute name="vali_code" maxLength="20" isNull="0" type="String"  minLength="32"/>
+		<attribute name="passwd"  maxLength="200" isNull="0" type="String"  minLength="32"/>
+		<attribute name="device_id"  maxLength="200" isNull="0" type="String"  minLength="32"/>
+	</msg>
+	<msg method="/user/set_identity">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="32"/>
+		<attribute name="user_type" maxLength="1" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/account/login">
+		<attribute name="login_id" maxLength="20" isNull="0" type="String"  minLength="0"/>
+		<attribute name="passwd" maxLength="200" isNull="0" type="String"  minLength="0"/>
+		<attribute name="type" maxLength="1" isNull="0" type="String"  minLength="1"/>
+	</msg>
+	
+	<msg method="/account/logout">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="32"/>
+	</msg>
+	<msg method="/account/one_key_login">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="type" maxLength="1" isNull="0" type="String"  minLength="1"/>
+	</msg>
+	<msg method="/account/third_login">
+		<attribute name="open_id" maxLength="200" isNull="0" type="String"  minLength="0"/>
+		<attribute name="access_token" maxLength="128" isNull="0" type="String"  minLength="0"/>
+		<attribute name="refresh_token" maxLength="128" isNull="1" type="String"  minLength="0"/>
+		<attribute name="third_avatar_address" maxLength="512" isNull="0" type="String"  minLength="0"/>
+		<attribute name="third_nick_name" maxLength="128" isNull="0" type="String"  minLength="0"/>
+		<attribute name="type" maxLength="1" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/account/set_third_login">
+		<attribute name="open_id" maxLength="200" isNull="0" type="String"  minLength="0"/>
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/user/get_user_list">
+		<attribute name="user_ids"  maxLength="20000" isNull="0"  type="jsonArr"  minLength="0"/>
+	</msg>
+	<msg method="/user/edit_info">
+		<attribute name="user_id"  maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="gender"  maxLength="1" isNull="1" type="String"  minLength="0"/>
+		<attribute name="nick_name"  maxLength="20" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/account/set_passwd">
+		<attribute name="user_id"  maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="old_passwd"  maxLength="200" isNull="0" type="String"  minLength="0"/>
+		<attribute name="new_passwd"  maxLength="200" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/account/reset_passwd">
+		<attribute name="login_id" maxLength="20" isNull="0" type="String"  minLength="11"/>
+		<attribute name="new_passwd" maxLength="200" isNull="0" type="String"  minLength="0"/>
+		<attribute name="vali_code" maxLength="32" isNull="0" type="String"  minLength="32"/>
+	</msg>
+	<msg method="/user/set_avatar">
+		<attribute name="user_id" maxLength="20" isNull="0" type="String"  minLength="0"/>
+		<attribute name="avatar_address" maxLength="512" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/user/check_phone">
+		<attribute name="phones" maxLength="200000" isNull="0" type="jsonArr"  minLength="0"/>
+	</msg>
+	
+	<!-- 群组、社交 -->
+	<msg method="/group/add">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_name" maxLength="200" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_desc" maxLength="200" isNull="1" type="String"  minLength="0"/>
+		<attribute name="group_pic" maxLength="512" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/group/get">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="size" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="group_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/group/edit">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_id" maxLength="32" isNull="0" type="int"  minLength="0"/>
+		<attribute name="group_name" maxLength="200" isNull="1" type="String"  minLength="0"/>
+		<attribute name="group_desc" maxLength="200" isNull="1" type="String"  minLength="0"/>
+		<attribute name="group_pic" maxLength="512" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/group/set_pic">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_id" maxLength="32" isNull="0" type="int"  minLength="0"/>
+		<attribute name="group_pic" maxLength="512" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/group/del">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/member/query">
+		<attribute name="group_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="size" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="record_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/member/add">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_id" maxLength="32" isNull="0" type="int"  minLength="0"/>
+		<attribute name="apply_desc" maxLength="200" isNull="1" type="String"  minLength="0"/>
+		<attribute name="list" maxLength="20000" isNull="0" type="jsonArr"  minLength="0"/>
+	</msg>
+	
+	<msg method="/member/edit">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_id" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="member_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_nick_name" maxLength="200" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/member/del">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="group_id" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="list" maxLength="2000" isNull="0" type="jsonArr"  minLength="0"/>
+	</msg>
+	
+	<msg method="/member/invitation">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="size" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="group_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/group/get">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="apply_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="stat" maxLength="1" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/likes/click">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="like_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="type" maxLength="32" isNull="1" type="String"  minLength="0"/>
+		<attribute name="opt" maxLength="32" isNull="1" type="int"  minLength="0"/>
+	</msg>
+	
+	
+	<msg method="/comment/publish">
+		<attribute name="user_id"  maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="comm_obj_id"  maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="content"  maxLength="32" isNull="1" type="String"  minLength="0"/>
+		<attribute name="type"  maxLength="1" isNull="1" type="String"  minLength="0"/>
+		<attribute name="original_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/dynamic/pub">
+		<attribute name="/dynamic/pub" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="content" maxLength="200" isNull="0" type="int"  minLength="0"/>
+		<attribute name="video_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+		<attribute name="access_auth" maxLength="32" isNull="1" type="String"  minLength="0"/>
+		<attribute name="pic_list" maxLength="220000" isNull="1" type="jsonArr"  minLength="0"/>
+	</msg>
+	
+	<msg method="/dynamic/get_group_list">
+		<attribute name="group_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="size" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="record_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/dynamic/get_user_group">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="size" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="record_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/dynamic/del">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="dynamic_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/dynamic/get_user_list">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="size" maxLength="20" isNull="0" type="int"  minLength="0"/>
+		<attribute name="record_id" maxLength="32" isNull="1" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/dynamic/detail">
+		<attribute name="dynamic_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	<msg method="/member/handle">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/comment/query">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="original_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="size" maxLength="32" isNull="0" type="int"  minLength="0"/>
+		<attribute name="record_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	<msg method="/comment/del">
+		<attribute name="user_id" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="record_ids" maxLength="32" isNull="0" type="String"  minLength="0"/>
+	</msg>
+	
+	
+	
+	
+	
+	
+<!-- 
+	<msg method="appdata.update">
+		<attribute name="appId" maxLength="40" isNull="0" type="String" />
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="appdata.delete">
+		<attribute name="appId" maxLength="40" isNull="0" type="String" />
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="appdata.deleteApp">
+		<attribute name="appId" maxLength="40" isNull="0" type="String" />
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+
+	friends.create
+	<msg method="friends.create">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="friendId" maxLength="32" isNull="0" type="String" />
+	</msg>
+
+	<msg method="friends.areFriends">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="friendId" maxLength="32" isNull="0" type="String" />
+	</msg>
+
+	<msg method="friends.get">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$" />
+		<attribute name="pageSize" isNull="0" type="int"
+			regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+
+	<msg method="friends.getUserLoginSum">
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$" />
+		<attribute name="pageSize" isNull="0" type="int"
+			regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+
+	<msg method="friends.getOnline">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$" />
+        <attribute name="pageSize" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+
+	<msg method="people.getAllPeople">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$" />
+        <attribute name="pageSize" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+
+	<msg method="friends.getAppFriends">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="appId" maxLength="40" isNull="0" type="String" />
+	</msg>
+
+
+	<msg method="people.get">
+		<attribute name="userId" isNull="0" type="String" />
+	</msg>
+
+	<msg method="people.hasApp">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="appId" maxLength="40" isNull="0" type="String" />
+	</msg>
+	<msg method="friends.delete">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="friendId" maxLength="32" isNull="0" type="String" />
+	</msg>
+	用户位置信息
+	<msg method="position.get">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="pageNo" isNull="1" type="int" regular="^[1-9][0-9]{0,1}$" />
+		<attribute name="pageSize" isNull="1" type="int"
+			regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	<msg method="position.create">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="cellId" maxLength="50" isNull="0" type="String" />
+	</msg>
+
+	企业分组接口
+	<msg method="egroup.create">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="groupname" maxLength="20" isNull="0" type="String" />
+		<attribute name="description" maxLength="20" isNull="1"
+			type="String" />
+		<attribute name="enterpriseId" maxLength="32" isNull="0"
+			type="String" />
+	</msg>
+	<msg method="egroup.get">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+
+	<msg method="egroup.update">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="id" maxLength="32" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="groupname" maxLength="20" isNull="0" type="String" />
+		<attribute name="description" maxLength="20" isNull="1"
+			type="String" />
+		<attribute name="enterpriseId" maxLength="32" isNull="0"
+			type="String" />
+	</msg>
+	<msg method="egroup.del">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="egroupId" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="egroup.addUser2Group">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="egroupId" maxLength="32" isNull="0" type="String" />
+		<attribute name="userIds" maxLength="200" isNull="0" type="String" />
+	</msg>
+	<msg method="egroup.delUserFromGroup">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="egroupId" maxLength="32" isNull="0" type="String" />
+		<attribute name="userIds" maxLength="200" isNull="0" type="String" />
+	</msg>
+	<msg method="egroup.getUsersByGroupId">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="egroupId" maxLength="32" isNull="0" type="String" />
+		<attribute name="pageNo" isNull="1" type="int" />
+		<attribute name="pageSize" isNull="1" type="int" />
+	</msg>
+	<msg method="egroup.createUser">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="egroupId" maxLength="32" isNull="0" type="String" />
+		<attribute name="mainphone" isNull="0" type="String" />
+		<attribute name="enterpriseid" isNull="1" type="String" />
+		<attribute name="pwd" isNull="0" type="String" />
+		<attribute name="name" isNull="0" type="String" />
+		<attribute name="email" isNull="1" type="String" />
+	</msg>
+
+	过滤查询排行榜
+	<msg method="people.getTopPeople">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="pageNo" isNull="0" type="int" />
+		<attribute name="pageSize" isNull="0" type="int" />
+	</msg>
+
+	过滤查询排行榜
+	<msg method="people.findFriends">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,7}$" />
+		<attribute name="pageSize" isNull="0" type="int"
+			regular="^[1-9][0-9]{0,2}$" />
+		<attribute name="minAge" isNull="1" type="String"
+			regular="^[0-9]{4}-(0[1-9]|1[1-2])-(0[1-9]|[1-2][0-9]|3[0-1])$" />
+		<attribute name="maxAge" isNull="1" type="String"
+			regular="^[0-9]{4}-(0[1-9]|1[1-2])-(0[1-9]|[1-2][0-9]|3[0-1])$" />
+		<attribute name="birthday" isNull="1" type="String"
+			regular="^[0-9]{4}-(0[1-9]|1[1-2])-(0[1-9]|[1-2][0-9]|3[0-1])$" />
+	</msg>
+
+	用户中心过滤
+	<msg method="account.createCustmer">
+		<attribute name="password" maxLength="100" isNull="0" type="String" />
+		<attribute name="name" maxLength="10" isNull="1" type="String" />
+		<attribute name="gender" maxLength="1" isNull="1" type="String" />
+		<attribute name="idcard" maxLength="200" isNull="1" type="String" />
+		<attribute name="email" maxLength="200" isNull="1" type="String" />
+		<attribute name="phone" maxLength="100" isNull="1" type="String" />
+		<attribute name="nickname" maxLength="10" isNull="0" type="String" />
+		<attribute name="city" maxLength="10" isNull="0" type="String" />
+		<attribute name="signName" maxLength="200" isNull="1" type="String" />
+		<attribute name="interests" maxLength="200" isNull="1" type="String" />
+		<attribute name="profession" maxLength="200" isNull="1" type="String" />
+	</msg>
+
+	<msg method="account.getActiveCode">
+		<attribute name="phone" maxLength="70" isNull="0" type="String"
+			isValid="0" />
+		<attribute name="tokenId" maxLength="70" isNull="1" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="account.mailActivate">
+		<attribute name="email" maxLength="200" isNull="0" type="String" />
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="type" maxLength="2" isNull="0" type="String"
+			regular="^[1-2]$" />
+
+	</msg>
+	<msg method="account.destroy">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="tokenId" maxLength="70" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+
+
+	<msg method="account.tokenValidate">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="account.stValidate">
+		<attribute name="st" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="account.createST">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="account.updatePhone">
+		<attribute name="phone" maxLength="70" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="code" minLength="6" maxLength="6" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="account.updateMailPhone">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="phone" maxLength="70" isNull="0" type="String" />
+		<attribute name="code" minLength="6" maxLength="6" isNull="0" type="String" />
+	</msg>
+	<msg method="account.updatepeople">
+		<attribute name="tokenId" maxLength="70" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="name" maxLength="10" isNull="1" type="String"
+			isValid="0" />
+		<attribute name="gender" maxLength="1" isNull="1" type="String"
+			isValid="0" />
+		<attribute name="maritalstatus" maxLength="1" isNull="1"
+			type="String" isValid="0" />
+		<attribute name="birthday" maxLength="10" isNull="1" type="String"
+			isValid="0" />
+		<attribute name="bloodtype" maxLength="2" isNull="1" type="String"
+			isValid="0" />
+		<attribute name="smallavatar" maxLength="200" isNull="1"
+			type="String" isValid="0" />
+		<attribute name="idCard" maxLength="200" isNull="1" type="String"
+			isValid="0" />
+		<attribute name="msn" maxLength="200" isNull="1" type="String"
+			isValid="0" />
+		<attribute name="city" maxLength="10" isNull="1" type="String"
+			isValid="0" />
+		<attribute name="signName" maxLength="200" isNull="1" type="String" />
+		<attribute name="interests" maxLength="200" isNull="1" type="String" />
+		<attribute name="profession" maxLength="200" isNull="1" type="String" />	
+	</msg>
+	<msg method="account.updateAccount">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="account" maxLength="200" isNull="0" type="String" />
+	</msg>
+	验证码参数过滤
+	<msg method="activeCode.phone">
+		<attribute name="phone" maxLength="200" isNull="0" type="String" />
+		<attribute name="type" maxLength="1" isNull="0" type="String" />
+	</msg>
+	<msg method="activeCode.email">
+		<attribute name="email" maxLength="200" isNull="0" type="String" />
+		<attribute name="city" maxLength="10" isNull="0" type="String" />
+	</msg>
+	<msg method="activeCode.validate">
+		<attribute name="phoneoremail" maxLength="200" isNull="0"
+			type="String" />
+		<attribute name="code" minLength="6" maxLength="6" isNull="0" type="String" />
+	</msg>
+
+	集团参数
+	<msg method="organize.get">
+		<attribute name="enterpriseId" maxLength="" isNull="0" type="String" />
+		<attribute name="pageNo" isNull="1" type="int" regular="^[1-9][0-9]{0,7}$" />
+		<attribute name="pageSize" isNull="1" type="int"
+			regular="^[1-9][0-9]{0,2}$" />
+	</msg>
+
+	<msg method="organize.update">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="enterpriseId" maxLength="40" isNull="0"
+			type="String" />
+		<attribute name="name" maxLength="100" isNull="0" type="String" />
+	</msg>
+
+	<msg method="organize.getUsers">
+		<attribute name="enterpriseId" maxLength="40" isNull="0"
+			type="String" />
+	</msg>
+
+	<msg method="account.updatepwd">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="newpassword" maxLength="100" isNull="0"
+			type="String" />
+		<attribute name="oldpassword" maxLength="100" isNull="0"
+			type="String" />
+	</msg>
+
+	<msg method="account.setpwd">
+		<attribute name="phoneoremail" maxLength="200" isNull="0"
+			type="String" />
+		<attribute name="newpassword" maxLength="100" isNull="0"
+			type="String" />
+		<attribute name="code" minLength="6" maxLength="6" isNull="0" type="String" />
+	</msg>
+
+	<msg method="account.updateEmail">
+		<attribute name="email" maxLength="200" isNull="0" type="String" />
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	<msg method="account.loginAuto">
+		<attribute name="phone" maxLength="100" isNull="0" type="String" />
+	</msg>
+	<msg method="account.checkRealName">
+		<attribute name="phone" maxLength="100" isNull="0" type="String" />
+		<attribute name="name" maxLength="200" isNull="0" type="String" />
+		<attribute name="idCard" maxLength="200" isNull="0" type="String" />
+	</msg>
+	<msg method="people.findPeople">
+		<attribute name="account" maxLength="200" isNull="0" type="String" />
+	</msg>
+	<msg method="friends.rank">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="pageNo" isNull="1" type="int" regular="^[1-9][0-9]{0,7}$" />
+		<attribute name="pageSize" isNull="1" type="int"
+			regular="^[1-9][0-9]{0,2}$" />
+	</msg>
+
+	<msg method="people.getOnlinePerson">
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,7}$" />
+		<attribute name="pageSize" isNull="0" type="int"
+			regular="^[1-9][0-9]{0,2}$" />
+	</msg>
+
+	<msg method="statis.getRegInfo">
+		<attribute name="start" isNull="0" type="String" />
+		<attribute name="end" isNull="0" type="String" />
+	</msg>
+	<msg method="account.importUser">
+		<attribute name="name" maxLength="16" isNull="1" type="String" />
+		<attribute name="gender" maxLength="1" isNull="1" type="String" />
+		<attribute name="birthday" maxLength="10" isNull="1" type="String" />
+		<attribute name="email" maxLength="20" isNull="1" type="String" />
+		<attribute name="nickname" maxLength="20" isNull="0" type="String" />
+		<attribute name="city" maxLength="10" isNull="1" type="String" />
+		<attribute name="phone" maxLength="20" isNull="1" type="String" />
+		<attribute name="account" maxLength="20" isNull="1" type="String" />
+		<attribute name="idcard" maxLength="18" isNull="1" type="String" />
+		<attribute name="password" maxLength="32" isNull="1" type="String" />
+		<attribute name="comeFrom" maxLength="10" isNull="0" type="String" />
+		<attribute name="activetype" maxLength="1" isNull="1" type="String" />
+		<attribute name="signName" maxLength="200" isNull="1" type="String" />
+		<attribute name="interests" maxLength="200" isNull="1" type="String" />
+		<attribute name="profession" maxLength="200" isNull="1" type="String" />
+	</msg>
+	<msg method="friends.findFriends">
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,7}$" />
+		<attribute name="pageSize" isNull="0" type="int"
+			regular="^[1-9][0-9]{0,2}$" />
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="fields" maxLength="200" isNull="1" type="String" />
+		<attribute name="account" maxLength="200" isNull="1" type="String" />
+		<attribute name="phone" maxLength="100" isNull="1" type="String" />
+		<attribute name="email" maxLength="200" isNull="1" type="String" />
+		<attribute name="nickName" maxLength="20" isNull="1" type="String" />
+		<attribute name="city" maxLength="20" isNull="1" type="String" />
+		<attribute name="gender" maxLength="1" isNull="1" type="String" />
+		<attribute name="brithday" maxLength="20" isNull="1" type="String" />
+	</msg>
+
+	<msg method="people.loginTimesRank">
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,7}$" />
+		<attribute name="pageSize" isNull="0" type="int"
+			regular="^[1-9][0-9]{0,2}$" />
+	</msg>
+
+	<msg method="account.checkNickname">
+		<attribute name="nickname" isNull="0" type="String"
+			maxLength="10" />
+	</msg>
+	<msg method="misc.serviceMisc">
+		<attribute name="phone" maxLength="100" isNull="0" type="String" />
+		<attribute name="state" isNull="0" maxLength="1" type="int" />
+		<attribute name="orderDate" isNull="1" type="String"
+			regular="^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))($|\s([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d)" />
+		<attribute name="serviceCode" isNull="0" maxLength="32"
+			type="String" />
+	</msg>
+	<msg method="misc.authService">
+		<attribute name="phone" maxLength="100" isNull="0" type="String" />
+		<attribute name="serviceCode" maxLength="32" isNull="0"
+			type="String" />
+	</msg>
+	<msg method="account.registerAuto">
+		<attribute name="phone" maxLength="100" isNull="0" type="String" />
+		<attribute name="signName" maxLength="200" isNull="1" type="String" />
+		<attribute name="interests" maxLength="200" isNull="1" type="String" />
+		<attribute name="profession" maxLength="200" isNull="1" type="String" />
+	</msg>
+
+	<msg method="people.getRecommendHistory">
+		<attribute name="userId" maxLength="100" isNull="0" type="String" />
+		<attribute name="pageNo" maxLength="5" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$"  />
+		<attribute name="pageSize" maxLength="2" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+
+	<msg method="account.thirdBind">
+		<attribute name="tokenId" maxLength="100" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="thirdUid" maxLength="100" isNull="0" type="String" />
+		<attribute name="thirdSys" maxLength="100" isNull="0" type="String" />
+	</msg>
+	<msg method="account.thirdLogin">
+		<attribute name="thirdUid" maxLength="100" isNull="0" type="String" />
+		<attribute name="thirdSys" maxLength="100" isNull="0" type="String" />
+	</msg>
+
+	<msg method="award.convert">
+		<attribute name="type" maxLength="1" isNull="0" type="String" />
+		<attribute name="tokenId" maxLength="100" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="credit" maxLength="32" isNull="0" type="int" />
+	</msg>
+
+	<msg method="account.queryBrand">
+		<attribute name="phone" maxLength="200" isNull="0" type="String" />
+	</msg>
+
+	江西需求新增配置 add time : 6.15
+	<msg method="phone.queryBrand">
+		<attribute name="phone" maxLength="200" isNull="0" type="String" />
+	</msg>
+
+	<msg method="people.recommend">
+		<attribute name="tokenId" maxLength="100" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+
+	<msg method="award.get">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="award.update">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="ruleId" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="award.getUserRule">
+		<attribute name="type" maxLength="1" isNull="0" type="String" />
+		<attribute name="tokenId" maxLength="100" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+
+	<msg method="award.getRule">
+	    <attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,7}$" />
+	    <attribute name="pageSize" isNull="0" type="int" regular="^[1-9][0-9]{0,2}$" />
+	</msg>
+	<msg method="award.getDetailHistory">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="fields" maxLength="100" isNull="0" type="String" />
+		<attribute name="pageNo" maxLength="5" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$"  />
+		<attribute name="pageSize" maxLength="2" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	<msg method="award.getTopPeople">
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,7}$" />
+		<attribute name="pageSize" isNull="0" type="int"
+			regular="^[1-9][0-9]{0,2}$" />
+		<attribute name="gender" maxLength="1" type="String" />
+
+	</msg>
+	<msg method="subscribe.get">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"  isValid="1" />
+	</msg>
+	<msg method="account.signInLog">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String" isValid="1" />
+		<attribute name="pageNo" maxLength="5" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$"  />
+		<attribute name="pageSize" maxLength="2" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	
+	<msg method="people.updateRecommend">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="msg.push">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="msgsourceCode" maxLength="32" isNull="0" type="String" />
+		<attribute name="msgType" maxLength="1" isNull="0" type="String" />
+	</msg>
+	<msg method="msg.subscribe">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="msgsrccode" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="msg.unsubscribe">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="msgsrccode" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="msg.authentication">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="msgsrccode" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="msg.getsubuserlist">
+		<attribute name="msgsrccode" maxLength="32" isNull="0" type="String" />
+		<attribute name="pageNo" maxLength="5" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$"  />
+		<attribute name="pageSize" maxLength="2" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	<msg method="msg.getsourcelist">
+		<attribute name="pageNo" maxLength="5" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$"  />
+		<attribute name="pageSize" maxLength="2" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	<msg method="msg.bind">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="msgsrccode" maxLength="32" isNull="0" type="String" />
+		<attribute name="parameterlist" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="msg.getbinding">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="msgsrccode" maxLength="32" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="msg.getmsglist">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="readingflag" maxLength="1" isNull="0" type="String" />
+		<attribute name="pageNo" maxLength="5" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$"  />
+		<attribute name="pageSize" maxLength="2" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	
+	<msg method="msg.getmsgdetail">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+		<attribute name="messageid" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="statis.getRegNo">
+		<attribute name="end"    isNull="0" type="String" />
+		<attribute name="start"    isNull="0" type="String" />
+	</msg>
+	<msg method="statis.getOnLineUser">
+		<attribute name="t"    isNull="0"   type="String" />
+	</msg>
+	<msg method="statis.getDestroyNumByTime">
+		<attribute name="end"    isNull="0" type="String" />
+		<attribute name="start"    isNull="0" type="String" />
+	</msg>
+	<msg method="statis.getDestroyInfoByTime">
+		<attribute name="end"    isNull="0" type="String" />
+		<attribute name="start"    isNull="0" type="String" />
+	</msg>
+	<msg method="statis.getUser">
+		<attribute name="userId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	<msg method="people.getSuccRecomCount">
+		<attribute name="userId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="task.getAllTaskRule">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="pageNo" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$" />
+        <attribute name="pageSize" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+
+	<msg method="task.addConfigTask">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="ruleId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="task.getTaskRule">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="type" maxLength="1" isNull="0" type="String" />
+		<attribute name="taskRuleId"  maxLength="32"   isNull="1"   type="String" />
+	</msg>
+	
+	<msg method="task.addOnlineTime">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String" isValid="1" />
+		<attribute name="interval"  maxLength="2"   isNull="1"   type="String" regular="^[1-9][0-9]{0,1}$"/>
+	</msg>
+	
+	<msg method="task.getUserHistory">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String" isValid="1" />
+	</msg>
+	
+	<msg method="task.getUserRoomInfo">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="people.getUserInfo">
+		<attribute name="userId" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="award.receive">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="ruleIds"  maxLength="320"   isNull="0"   type="String" />
+	</msg>
+	<msg method="award.compNoti">
+		<attribute name="tokenId" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+		<attribute name="ruleId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="task.completeNoti">
+		<attribute name="userId" isNull="0" type="String" />
+		<attribute name="ruleId"  maxLength="32"   isNull="0"   type="String" />
+		<attribute name="appId"  isNull="0"   type="String" />
+		<attribute name="appKey"    isNull="0"   type="String" />
+		<attribute name="encrString"    isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="task.query">
+		<attribute name="appId"  isNull="0"   type="String" />
+		<attribute name="appKey"    isNull="0"   type="String" />
+		<attribute name="encrString"    isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="grade.query">
+		<attribute name="pageNo" maxLength="5" isNull="0" type="int" regular="^[1-9][0-9]{0,4}$"  />
+		<attribute name="pageSize" maxLength="2" isNull="0" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	
+	<msg method="grade.get">
+		<attribute name="userId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="grade.getList">
+		<attribute name="userId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="grade.getUserRoomInfo">
+		<attribute name="userId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="award.queryAttInfo">
+		<attribute name="userId"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+    <msg method="people.getUserBaseInfo">
+		<attribute name="paraStr" maxLength="32" isNull="0" type="String" />
+		<attribute name="type" maxLength="1" isNull="0" type="String" />
+	</msg>
+	
+	教育用户中心
+	<msg method="account.register">
+		<attribute name="account"  maxLength="32"   isNull="0"   type="String" />
+		<attribute name="password"  maxLength="32"   isNull="0"   type="String" />
+		<attribute name="usertype"  maxLength="2"   isNull="0"   type="String" />
+		<attribute name="name"  maxLength="32"   isNull="0"   type="String" />
+		<attribute name="idcard"  maxLength="18"   isNull="0"   type="String" />
+		<attribute name="gender"  maxLength="2"   isNull="0"   type="String" />
+		<attribute name="groupid"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="validnum.get">
+		<attribute name="type"  maxLength="1"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="account.valid">
+		<attribute name="account"  maxLength="32"   isNull="0"   type="String" />
+	</msg>
+	
+	<msg method="account.login">
+		<attribute name="account" maxLength="200" isNull="0" type="String" />
+		<attribute name="password" maxLength="100" isNull="0" type="String" />
+		<attribute name="portaltype" maxLength="1"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="account.logout">
+		<attribute name="usessionid" maxLength="0" isNull="0" type="String"
+			isValid="1" />
+	</msg>
+	
+	<msg method="account.bind">
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+		<attribute name="bindtype" maxLength="1" isNull="0" type="String" />
+		<attribute name="bindaccount" maxLength="128"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="account.unbind">
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+		<attribute name="bindtype" maxLength="1" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="account.resetpasswd">
+		<attribute name="newpassword" maxLength="128" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="orga.query">
+		<attribute name="provincecode" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="areacode" maxLength="32" isNull="1" type="String"  minLength="0"/>
+		<attribute name="pageno" isNull="1" type="int" regular="^[1-9][0-9]{0,4}$" />
+		<attribute name="pagesize" isNull="1" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	修改学校 机构
+		<msg method="school.update">
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+		<attribute name="orgaid" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="orgacode" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="organame" maxLength="64" isNull="0" type="String"  minLength="0"/>
+		<attribute name="parentorgaid" maxLength="32" isNull="0" type="String"  minLength="0"/>
+		<attribute name="orgacage" maxLength="1" isNull="0" type="String"  minLength="0"/>
+		<attribute name="orgatype" maxLength="12" isNull="0" type="String"  minLength="0"/>
+		<attribute name="orgaddr" maxLength="256" isNull="0" type="String"  minLength="0"/>
+		<attribute name="area" maxLength="30" isNull="1" type="String"  minLength="0"/>
+		<attribute name="isleaf" maxLength="1" isNull="0" type="String"  minLength="0"/>
+		<attribute name="subcount"  isNull="0" type="int"  minLength="0"/>
+	</msg>
+	<msg method="user.get">
+		<attribute name="personid" maxLength="32" isNull="0" type="String" />
+	</msg>
+	<msg method="user.setinfo">
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="users.importuser">
+		<attribute name="account" maxLength="20" isNull="0" type="String" />
+		<attribute name="password" maxLength="64" isNull="0" type="String"  />
+		<attribute name="phone" isNull="1" type="int"  regular="^[1][3-8][0-9]{9}$"/>
+		<attribute name="email" maxLength="64" isNull="1" type="String"  regular="^.+@.+\..+$"/>
+		<attribute name="role" isNull="0" type="String"  minLength="0"/>
+		<attribute name="orgaid" maxLength="32" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="users.get">
+		<attribute name="username" maxLength="50" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="users.syncstatus">
+		<attribute name="username" maxLength="50" isNull="0" type="String" />
+		<attribute name="status" maxLength="2" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="users.assignUserRole">
+		<attribute name="userid" maxLength="50" isNull="0" type="String" />
+		<attribute name="roleid" maxLength="50" isNull="0" type="String" />
+	</msg>
+	
+	<msg method="users.userrole">
+		<attribute name="username" maxLength="50" isNull="0" type="String" />
+	</msg>
+	<msg method="users.allCmsRoleByFlag">
+		<attribute name="roleFlag" maxLength="50" isNull="0" type="String" />
+	</msg>
+	用户隐私
+	<msg method="privacy.set">
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+	</msg>
+	<msg method="privacy.set">
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+		<attribute name="privacyinfo"  isNull="0" type="String" />
+		
+	</msg>
+	群组
+	<msg method="groups.create">
+		<attribute name="usessionid" maxLength="100" isNull="0" type="String" />
+		<attribute name="title" maxLength="100" isNull="0" type="String" />
+		<attribute name="ownerid" maxLength="32"  isNull="0" type="String" />
+		<attribute name="memberscount" maxLength="10"  isNull="0" type="String" />
+		<attribute name="jointype" maxLength="2"  isNull="0" type="String" />
+		<attribute name="grouptype" maxLength="2"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="groups.get">
+		<attribute name="pagesize" maxLength="10"  isNull="0" type="String" />
+		<attribute name="pageno" maxLength="10"  isNull="0" type="String" />
+		<attribute name="grouptype" maxLength="2"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="groups.update">
+		<attribute name="usessionid" maxLength="100" isNull="0" type="String" />
+		<attribute name="title" maxLength="100" isNull="0" type="String" />
+		<attribute name="groupid" maxLength="32"  isNull="0" type="String" />
+		<attribute name="grouptypeid" maxLength="32"  isNull="0" type="String" />
+		<attribute name="jointype" maxLength="2"  isNull="0" type="String" />
+		<attribute name="grouptype" maxLength="2"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="groups.delete">
+		<attribute name="usessionid" maxLength="100" isNull="0" type="String" />
+		<attribute name="groupid" maxLength="32"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="groups.addmember">
+		<attribute name="usessionid" maxLength="100" isNull="0" type="String" />
+		<attribute name="personids"  isNull="0" type="String" />
+		<attribute name="groupid" maxLength="32"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="groups.delmember">
+		<attribute name="usessionid" maxLength="100" isNull="0" type="String" />
+		<attribute name="personids"  isNull="0" type="String" />
+		<attribute name="groupid" maxLength="32"  isNull="0" type="String" />
+	</msg>
+	
+	<msg method="class.query">
+		<attribute name="schoolid" maxLength="32" isNull="0" type="String" />
+		<attribute name="pageno" isNull="1" type="int" regular="^[1-9][0-9]{0,4}$" />
+		<attribute name="pagesize" isNull="1" type="int" regular="^[1-9][0-9]{0,1}$" />
+	</msg>
+	
+	<msg method="class.update">
+		<attribute name="operatetype" maxLength="1" isNull="0" type="String" />
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+		<attribute name="classid" maxLength="32" isNull="1" type="String" />
+		<attribute name="orgaid" maxLength="32" isNull="1" type="String" />
+		<attribute name="grade"  isNull="0" type="int" />
+		<attribute name="classtype" maxLength="32" isNull="0" type="String" />
+		<attribute name="foundtime" maxLength="32" isNull="0" type="String" />
+		<attribute name="jointype" maxLength="1" isNull="0" type="String" />
+		<attribute name="invitepermi" maxLength="1" isNull="0" type="String" />
+		<attribute name="created" maxLength="32" isNull="0" type="String" />
+		<attribute name="creater" maxLength="32" isNull="0" type="String" />
+		<attribute name="headteacherids" maxLength="256" isNull="0" type="String" />
+		<attribute name="headteacherpositionid" maxLength="32" isNull="1" type="String" />
+		<attribute name="teacherpositionid" maxLength="32" isNull="1" type="String" />
+	</msg>
+	
+	<msg method="class.promotion">
+		<attribute name="usessionid" maxLength="64" isNull="0" type="String" />
+		<attribute name="classid" isNull="0" type="String" />
+	</msg>
+	 -->
+	
+</body>

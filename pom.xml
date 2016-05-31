@@ -12,6 +12,7 @@
         <module>activemq</module>
         <module>JavaUtils</module>
         <module>mybatis-generate</module>
+        <module>app-server-ifs</module>
     </modules>
     <packaging>pom</packaging>
 
