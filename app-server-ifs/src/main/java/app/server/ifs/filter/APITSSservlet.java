@@ -1,18 +1,12 @@
 package app.server.ifs.filter;
 
-import app.server.common.MD5Util;
+
 import app.server.ifs.init.HttpUtil;
 import app.server.ifs.init.URLMapConfig;
 import app.server.ifs.utils.PropertiesConfig;
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.qiniu.util.Auth;
-import com.qiniu.util.StringMap;
-import org.apache.log4j.Logger;
-import org.app.server.cache.RedisPoolManager;
-import redis.clients.jedis.Jedis;
-
+import org.apache.commons.lang.StringUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,28 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Enumeration;
 
-/**
- * Servlet implementation class APITSSservlet
- */
+
 public class APITSSservlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(APITSSservlet.class);
-    /**
-     * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
-     */
+    //private static Logger logger = Logger.getLogger(APITSSservlet.class);
+
     private static final long serialVersionUID = 4607002214515050501L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public APITSSservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // resp.sendRedirect ("");
         Enumeration enumeration = req.getHeaderNames(); // 通过枚举类型获取请求文件的头部信息集
@@ -52,8 +36,6 @@ public class APITSSservlet extends HttpServlet {
          */
         JSONObject json = new JSONObject();
         String reqURL = req.getRequestURL().toString();
-        logger.info("request url :" + reqURL);
-
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json; charset=utf-8");
 
@@ -73,7 +55,7 @@ public class APITSSservlet extends HttpServlet {
                 resp.getWriter().flush();
                 resp.getWriter().close();
             } catch (Exception e) {
-                logger.error("/gettime  error:", e);
+                e.printStackTrace();
             } finally {
 
             }
@@ -103,13 +85,10 @@ public class APITSSservlet extends HttpServlet {
                 resp.getWriter().flush();
                 resp.getWriter().close();
             } catch (Exception e) {
-                logger.error("/gettime  error:", e);
-            } finally {
-
+                e.printStackTrace();
             }
         } else {
 
-            Jedis jedis = RedisPoolManager.createInstance();
             int port = req.getServerPort();
             String path = req.getContextPath();
             String contextPath = port + path;
@@ -118,8 +97,6 @@ public class APITSSservlet extends HttpServlet {
             String apiServerName = reqURL.substring(index + 2);
             String realURL = URLMapConfig.getValueByKey(apiServerName);
             String validaToken = URLMapConfig.getValidateTokenFlagByUrl(apiServerName);
-            logger.info("request apiServerName :" + apiServerName);
-            logger.info("request realURL :" + realURL);
             if (headder.contains("multipart/form-data")) {
                 String result = HttpUtil.doPostFormData(realURL, req);
                 resp.getWriter().write(result);
@@ -148,7 +125,6 @@ public class APITSSservlet extends HttpServlet {
                         String inputStr;
                         while ((inputStr = streamReader.readLine()) != null)
                             responseStrBuilder.append(inputStr);
-                        logger.info("reqdata: " + responseStrBuilder.toString());
                         reqJSON = net.sf.json.JSONObject.fromObject(responseStrBuilder.toString());
                         String type = reqJSON.optString("type");
                         para_data_json = reqJSON.getJSONObject("para_data");
@@ -157,9 +133,6 @@ public class APITSSservlet extends HttpServlet {
                         long currentTimestamp = System.currentTimeMillis();
                         // 请求超过 5分钟 验证不通过
                         if (currentTimestamp - timestamp >= 3000000) {
-                            if (jedis != null)
-                                RedisPoolManager.returnBrokenResource(jedis);
-                            logger.info("超时访问：" + responseStrBuilder.toString());
                             json.put("code", "100002");
                             json.put("msg", "超时访问");
                             resp.getWriter().write(json.toJSONString());
@@ -182,13 +155,7 @@ public class APITSSservlet extends HttpServlet {
 
                         if ("1".equals(validaToken) || reqURL.contains("get_download_token")) {
                             userId = para_data_json.getString("user_id");
-                            logger.debug("jedis value : " + jedis);
-                            token = jedis.get(userId + type);
-                            logger.debug("user_id=" + userId + "取到的token值为" + token);
                             if (StringUtils.isEmpty(token)) {
-                                if (jedis != null)
-                                    RedisPoolManager.returnBrokenResource(jedis);
-                                logger.info("token失效：" + responseStrBuilder.toString());
                                 json.put("code", "100006");
                                 json.put("msg", "token失效");
                                 resp.getWriter().write(json.toJSONString());
@@ -199,21 +166,10 @@ public class APITSSservlet extends HttpServlet {
                             str.append(token);
                         }
                         String sign = reqJSON.optString("sign");
-                        String serviceSign = MD5Util.getMD5(str.toString());
-                        logger.debug("toMD5Value=" + str);
-                        logger.debug("serviceSign=" + serviceSign);
+                        String serviceSign = "";//MD5Util.getMD5(str.toString());
                         if (sign.toUpperCase().equals(serviceSign)) {// = 通过
-                            // 刷新token
-                            if ("1".equals(validaToken)) {
-                                jedis.setex(userId, 7 * 24 * 60 * 60, token);
-                                if (jedis != null)
-                                    RedisPoolManager.returnBrokenResource(jedis);
-                            }
 
                         } else {
-                            if (jedis != null)
-                                RedisPoolManager.returnBrokenResource(jedis);
-                            logger.info("验签失败：" + responseStrBuilder.toString());
                             json.put("code", "100000");
                             json.put("msg", "验签失败");
                             resp.getWriter().write(json.toJSONString());
@@ -224,9 +180,6 @@ public class APITSSservlet extends HttpServlet {
 
 
                     } catch (Exception e) {
-                        if (jedis != null)
-                            RedisPoolManager.returnBrokenResource(jedis);
-                        logger.error("解析数据异常：", e);
                         json.put("code", "100001");
                         json.put("msg", "数据格式异常");
                         resp.getWriter().write(json.toJSONString());
@@ -249,14 +202,6 @@ public class APITSSservlet extends HttpServlet {
                             space = PropertiesConfig.getValueByKey("video_space");
                         }
                         token.append(getUploadToken(space, file_name, cover_upload, type));
-                        /**
-                         * images_space=images
-                         video_space=video
-                         *
-                         *
-                         * 3.1 upload_token
-                         *  3.2 access_prefix_url
-                         */
 
                         json.put("code", "0");
                         json.put("msg", "success");
@@ -273,20 +218,11 @@ public class APITSSservlet extends HttpServlet {
                         String url = para_data_json.optString("url");
                         //指定时长
                         long download_expired = 3600 * download_token_expired;
-                        String urlSigned = auth.privateDownloadUrl(url, download_expired);
-                        /**
-                         * images_space=images
-                         video_space=video
-                         *
-                         *
-                         * 3.1 upload_token
-                         *  3.2 access_prefix_url
-                         */
 
                         json.put("code", "0");
                         json.put("msg", "success");
                         net.sf.json.JSONObject resData = new net.sf.json.JSONObject();
-                        resData.put("access_url", urlSigned);
+                        resData.put("access_url", "");//urlSigned);
                         json.put("res_data", resData);
                         resp.getWriter().write(json.toJSONString());
                         resp.getWriter().flush();
@@ -294,18 +230,15 @@ public class APITSSservlet extends HttpServlet {
                         return;
                     }
 
-                    if (jedis != null)
-                        RedisPoolManager.returnBrokenResource(jedis);
 
                     try {
                         String result = HttpUtil.doPost(realURL, responseStrBuilder.toString());
-                        logger.info("realURL=" + realURL + ",\n result" + result);
                         resp.getWriter().write(result);
                         resp.getWriter().flush();
                         resp.getWriter().close();
                         return;
                     } catch (Exception e) {
-                        logger.error("调用后台服务异常： ", e);
+                        e.printStackTrace();
                         net.sf.json.JSONObject retrunJSON = new net.sf.json.JSONObject();
                         retrunJSON.put("code", "100099");
                         retrunJSON.put("msg", "异常");
@@ -317,10 +250,8 @@ public class APITSSservlet extends HttpServlet {
 
 
                 } catch (Throwable e) {
-                    logger.error(" ", e);
+                    e.printStackTrace();
                 } finally {
-                    if (jedis != null)
-                        RedisPoolManager.returnBrokenResource(jedis);
                     if (urlConn != null) {
                         try {
                             urlConn.disconnect();
@@ -333,9 +264,6 @@ public class APITSSservlet extends HttpServlet {
         }
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
@@ -344,18 +272,12 @@ public class APITSSservlet extends HttpServlet {
         long expiredTime = 3600 * upload_token_expired;
         if ("1".equals(converUpload)) { // 覆盖
             if ("1".equals(type)) { //图片
-                return auth.uploadToken(space, fileName, expiredTime, new StringMap()
-                        .putNotEmpty("returnBody", "{\"key\": $(key), \"hash\": $(etag), \"width\": $(imageInfo.width), \"height\": $(imageInfo.height)}"));
-
             }
-            return auth.uploadToken(space, fileName);
+            return null;
         } else {
             if ("1".equals(type)) { //图片
-                return auth.uploadToken(space, null, expiredTime, new StringMap()
-                        .putNotEmpty("returnBody", "{\"key\": $(key), \"hash\": $(etag), \"width\": $(imageInfo.width), \"height\": $(imageInfo.height)}"));
-
             }
-            return auth.uploadToken(space);
+            return null;
         }
     }
 
@@ -363,7 +285,6 @@ public class APITSSservlet extends HttpServlet {
     final long download_token_expired = StringUtils.isEmpty(PropertiesConfig.getValueByKey("download_token_expired")) ? 24 : Long.valueOf(PropertiesConfig.getValueByKey("download_token_expired"));
     final String ACCESS_KEY = PropertiesConfig.getValueByKey("AK");
     final String SECRET_KEY = PropertiesConfig.getValueByKey("SK");
-    Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
     final String apiSignKeyWord = PropertiesConfig.getValueByKey("api_sign_keyword");
     final String apiVersion = PropertiesConfig.getValueByKey("api_version");
     final String iOSVersion = StringUtils.isEmpty(PropertiesConfig.getValueByKey("iOS_version")) ? "1.0" : PropertiesConfig.getValueByKey("iOS_version");
