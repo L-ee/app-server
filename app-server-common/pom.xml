@@ -14,6 +14,6 @@
 
     </dependencies>
     <build>
-        <finalName>nio</finalName>
+        <finalName>app-server-common</finalName>
     </build>
 </project>
