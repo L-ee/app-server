@@ -74,7 +74,6 @@ public class HttpUtil {
      * @Author: tsingning
      * @Since: 2016年1月27日下午5:01:28
      * @param url
-     * @param value
      * @return
      * @throws java.net.MalformedURLException
      * @throws java.io.IOException
