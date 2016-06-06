@@ -13,6 +13,7 @@
         <module>app-server-common</module>
         <module>mybatis-generate</module>
         <module>app-server-ifs</module>
+        <module>app-server-test</module>
     </modules>
     <packaging>pom</packaging>
 
