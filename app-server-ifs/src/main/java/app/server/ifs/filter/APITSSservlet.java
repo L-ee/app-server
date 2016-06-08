@@ -19,19 +19,32 @@ public class APITSSservlet extends HttpServlet {
 
     //private static Logger logger = Logger.getLogger(APITSSservlet.class);
 
+    final long upload_token_expired = StringUtils.isEmpty(PropertiesConfig.getValueByKey("upload_token_expired")) ? 24 : Long.valueOf(PropertiesConfig.getValueByKey("upload_token_expired"));
+    final long download_token_expired = StringUtils.isEmpty(PropertiesConfig.getValueByKey("download_token_expired")) ? 24 : Long.valueOf(PropertiesConfig.getValueByKey("download_token_expired"));
+    final String ACCESS_KEY = PropertiesConfig.getValueByKey("AK");
+    final String SECRET_KEY = PropertiesConfig.getValueByKey("SK");
+    final String apiSignKeyWord = PropertiesConfig.getValueByKey("api_sign_keyword");
+    final String apiVersion = PropertiesConfig.getValueByKey("api_version");
+    final String iOSVersion = StringUtils.isEmpty(PropertiesConfig.getValueByKey("iOS_version")) ? "1.0" : PropertiesConfig.getValueByKey("iOS_version");
+    final String androidVersion = StringUtils.isEmpty(PropertiesConfig.getValueByKey("android_version")) ? "1.0" : PropertiesConfig.getValueByKey("android_version");
+
+
     private static final long serialVersionUID = 4607002214515050501L;
 
     public APITSSservlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // resp.sendRedirect ("");
-        Enumeration enumeration = req.getHeaderNames(); // 通过枚举类型获取请求文件的头部信息集
+        // 通过枚举类型获取请求文件的头部信息集
+        Enumeration enumeration = req.getHeaderNames();
         String headder = req.getHeader("Content-Type");
-        /*
-         * // req.getHeader ("content-type;value=multipart/form-data"); //遍历头部信息集 while(enumeration.hasMoreElements()){ //取出信息名 String name=(String)enumeration.nextElement(); //取出信息值 String
+        System.out.println("headder" + headder);
+        /**
+         * req.getHeader ("content-type;value=multipart/form-data");
+         * 遍历头部信息集 while(enumeration.hasMoreElements()){
+         * 取出信息名 String name=(String)enumeration.nextElement();
+         * 取出信息值 String
          * value=req.getHeader(name); System.out.println ("key="+name+";value="+value); }
          */
         JSONObject json = new JSONObject();
@@ -39,7 +52,8 @@ public class APITSSservlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json; charset=utf-8");
 
-        if (reqURL.contains("gettime")) { // 取服务器时间
+        if (reqURL.contains("gettime")) {
+            // 取服务器时间
             long time = System.currentTimeMillis();
             json.put("code", "0");
             json.put("msg", "success");
@@ -47,8 +61,7 @@ public class APITSSservlet extends HttpServlet {
             res_data.put("time", time);
             json.put("res_data", res_data);
             /**
-             *
-             { "code":"0", "msg":"message", "res_data": { "time":”XXXXXX” } }
+             * { "code":"0", "msg":"message", "res_data": { "time":”XXXXXX” } }
              */
             try {
                 resp.getWriter().write(json.toJSONString());
@@ -56,11 +69,10 @@ public class APITSSservlet extends HttpServlet {
                 resp.getWriter().close();
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-
             }
 
         } else if (reqURL.contains("get_client_version")) {
+            // 查询版本信息
             JSONArray version = new JSONArray();
             JSONObject androidJsonVer = new JSONObject();
             JSONObject iOSJsonVer = new JSONObject();
@@ -77,8 +89,7 @@ public class APITSSservlet extends HttpServlet {
             json.put("msg", "success");
             json.put("res_data", vJSON);
             /**
-             *
-             { "code":"0", "msg":"message", "res_data": { "time":”XXXXXX” } }
+             * { "code":"0", "msg":"message", "res_data": { "time":”XXXXXX” } }
              */
             try {
                 resp.getWriter().write(json.toJSONString());
@@ -93,7 +104,7 @@ public class APITSSservlet extends HttpServlet {
             String path = req.getContextPath();
             String contextPath = port + path;
             int index = reqURL.indexOf(apiVersion);
-            String ifsURL = reqURL.substring(0, index) + contextPath;
+            //String ifsURL = reqURL.substring(0, index) + contextPath;
             String apiServerName = reqURL.substring(index + 2);
             String realURL = URLMapConfig.getValueByKey(apiServerName);
             String validaToken = URLMapConfig.getValidateTokenFlagByUrl(apiServerName);
@@ -112,11 +123,26 @@ public class APITSSservlet extends HttpServlet {
                 net.sf.json.JSONObject para_data_json = null;
                 try {
                     is = req.getInputStream();
-                    // 验证
-
                     /**
-                     * { "timestamp":"1453798193112", "request_id":"1453798193112", "sign":"CF9207297368C32B599304D1BCECCC1A", "para_data":{ "user_id":"123", "para1":"value1", "para2":"value2",
-                     * "para3":"value3", } } 0 处理成功 1 失败 100000 验签失败 100001 数据格式异常 100002 请求超时失效，校验时间戳超时，默认2分钟超时 100003 request_id无效 100004 请求太频繁 100005 必填参数为空
+                     * {
+                     *      "timestamp":"1453798193112",
+                     *      "request_id":"1453798193112",
+                     *      "sign":"CF9207297368C32B599304D1BCECCC1A",
+                     *      "para_data":{
+                     *                      "user_id":"123",
+                     *                      "para1":"value1",
+                     *                      "para2":"value2",
+                     *                      "para3":"value3",
+                     *                   }
+                     * }
+                     * 0 处理成功
+                     * 1 失败
+                     * 100000 验签失败
+                     * 100001 数据格式异常
+                     * 100002 请求超时失效，校验时间戳超时，默认2分钟超时
+                     * 100003 request_id无效
+                     * 100004 请求太频繁
+                     * 100005 必填参数为空
                      */
                     BufferedReader streamReader;
                     StringBuilder responseStrBuilder = new StringBuilder();
@@ -280,14 +306,5 @@ public class APITSSservlet extends HttpServlet {
             return null;
         }
     }
-
-    final long upload_token_expired = StringUtils.isEmpty(PropertiesConfig.getValueByKey("upload_token_expired")) ? 24 : Long.valueOf(PropertiesConfig.getValueByKey("upload_token_expired"));
-    final long download_token_expired = StringUtils.isEmpty(PropertiesConfig.getValueByKey("download_token_expired")) ? 24 : Long.valueOf(PropertiesConfig.getValueByKey("download_token_expired"));
-    final String ACCESS_KEY = PropertiesConfig.getValueByKey("AK");
-    final String SECRET_KEY = PropertiesConfig.getValueByKey("SK");
-    final String apiSignKeyWord = PropertiesConfig.getValueByKey("api_sign_keyword");
-    final String apiVersion = PropertiesConfig.getValueByKey("api_version");
-    final String iOSVersion = StringUtils.isEmpty(PropertiesConfig.getValueByKey("iOS_version")) ? "1.0" : PropertiesConfig.getValueByKey("iOS_version");
-    final String androidVersion = StringUtils.isEmpty(PropertiesConfig.getValueByKey("android_version")) ? "1.0" : PropertiesConfig.getValueByKey("android_version");
 
 }

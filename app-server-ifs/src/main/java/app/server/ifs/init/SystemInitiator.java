@@ -7,35 +7,28 @@ import javax.servlet.ServletContext;
  */
 public class SystemInitiator {
 
-    static private SystemInfo systemInfo = null;
+    private static SystemInfo systemInfo = null;
 
-    static public SystemInfo getSystemInfo(){
+    public static SystemInfo getSystemInfo(){
         return systemInfo;
     }
 
     public static void setSystemInfo(SystemInfo systemInfo){
-
         SystemInitiator.systemInfo = systemInfo;
     }
 
     public static void initApp(ServletContext ctx){
-        // get file seperator
-        String FS = System.getProperty ("file.separator");
+        // 文件分割符
+        String FS = System.getProperty("file.separator");
+        // 工作目录
+        //String work_dir = System.getProperty("user.dir");
+        String path = ctx.getRealPath("/WEB-INF/classes");
 
-        // get system name configed in web.xml
-        String systemName = ctx.getInitParameter ("system-name");
-
-        System.out.println ("systemName="+systemName);    
-        // get working dir
-        String work_dir = System.getProperty ("user.dir");
-
-        // set conf path
-        String confPath = work_dir + FS + systemName + FS + ctx.getInitParameter ("system.config-path-name");
-
-        // set log path
-        String logPath = work_dir + FS + systemName + FS + ctx.getInitParameter ("system.log-path-name");
-
-        systemInfo = new SystemInfo (systemName,confPath,logPath);
-        System.out.println (systemInfo.toString ());
+        // 获取web.xml初始化值
+        String systemName = ctx.getInitParameter("system-name");
+        String confPath = path + FS + ctx.getInitParameter("system.config-path-name");
+        String logPath  = path + FS + ctx.getInitParameter("system.log-path-name");
+        systemInfo = new SystemInfo(systemName,confPath,logPath);
+        System.out.println (systemInfo.toString());
     }
 }

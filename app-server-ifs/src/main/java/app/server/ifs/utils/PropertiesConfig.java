@@ -20,7 +20,7 @@ public class PropertiesConfig {
     private static Logger logger = Logger.getLogger(PropertiesConfig.class);
     private static final Map<String,Object> propertieMap = new HashMap<String,Object> ();
     private PropertiesConfig() {}  
-    private static PropertiesConfig single=null;  
+    private static PropertiesConfig single = null;
     //静态工厂方法   
     public static PropertiesConfig getInstance() {  
          if (single == null) {    
@@ -30,11 +30,10 @@ public class PropertiesConfig {
     }  
     
     public void initPropertiesConfig(String path){
-        logger.info ("init propertes file ----------------------------");
         String FS = System.getProperty ("file.separator");
         String pathFile = SystemInitiator.getSystemInfo ().getConfPath () + FS + path;
         Properties prop = new Properties();
-      //获取输入流
+        //获取输入流
         InputStream in;
         try {
             in = new FileInputStream (new File(pathFile));
@@ -44,14 +43,10 @@ public class PropertiesConfig {
             for (Iterator it = keyValue.iterator(); it.hasNext();)
             {
                 String key = (String) it.next();
-                String value = prop.getProperty(key).trim(); 
-//                logger.info (key+"="+value);
+                String value = prop.getProperty(key).trim();
                 propertieMap.put (key, value);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            logger.error ("init propertes file  error :", e);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             logger.error ("init propertes file  error :", e);
         }

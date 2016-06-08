@@ -182,53 +182,7 @@ public class CheckParamsUtil {
                     }
                 }
 
-                // 验证特殊字符,如：枚举类型等
-                if (!StringUtil.isEmpty(regular)) {
-//                    if ("phone".equals (name)) {
-//                        String phoneReg = SysConfFactory.getValueByKey ("phone_interregional");
-//                        nameValue = SecretKeyUtil.decode (nameValue);
-//                        if (!phoneReg.matches (nameValue)) {
-//                            msg.setRetCode (ConstantDefine.SYSTEM_PRARMS_ERROR);
-//                            msg.setMessage (name + ConstantDefine.PARAM_ERROR_VALUE);
-//                            log.error (method + ":" + msg);
-//                            return msg;
-//                        }
-//                    }
-//                    if (!nameValue.matches (regular)) {
-//                        msg.setRetCode (ConstantDefine.SYSTEM_PRARMS_ERROR);
-//                        msg.setMessage (name + ConstantDefine.PARAM_ERROR_VALUE);
-//                        log.error (method + ":" + msg);
-//                        return msg;
-//                    }
-                }
 
-                // 非法字符验证
-                /*if (warnValue (nameValue)) {
-                    msg.setRetCode (ConstantDefine.SYSTEM_PRARMS_WARN);
-                    msg.setMessage (name + " can not contain dangerous character: " + ConstantDefine.WARN_STRING);
-                    log.error (method + ":" + msg);
-                    return msg;
-                }*/
-
-                // tokenId有效性验证
-         /*       if (ConstantDefine.IS_VALID.equals (isValid)) {
-                    if ("tokenId".equals (name)) {
-                        try {
-                            String userId = tokenOperation.queryUserIdByToken (nameValue);
-                            if (userId == null) {
-                                msg.setRetCode (ConstantDefine.SYSTEM_TOKENID_EXPIRED);
-                                msg.setMessage (ConstantDefine.TOKENID_EXPIRED_VALUE);
-                                log.error (method + ":" + msg);
-                                return msg;
-                            }
-                        } catch (Exception e) {
-                            msg.setRetCode (ConstantDefine.ORTHERS_ERROR);
-                            msg.setMessage ("validate token error :" + e.getMessage ());
-                            log.error (method + ":" + msg);
-                            return msg;
-                        }
-                    }
-                }*/
             }
         }
         return null;
@@ -246,91 +200,10 @@ public class CheckParamsUtil {
 
     static Map<String, String> secretMap = new HashMap<String, String>();
 
-    /*public static Future<?> checkSig(JSONObject request){
-        String method = null;
-        BaseDomain domain = null;
-        try {
-            method = request.getString ("method");
-            String params = request.getString ("params");
-            String signature = request.getString ("signature");
-
-            checkParam ("signature", signature);
-            JSONObject signatureJson = new JSONObject (signature);
-            String api_key = signatureJson.getString ("api_key");
-            String sig = signatureJson.getString ("sig");
-            checkParam ("api_key", api_key);
-            checkParam ("sig", sig);
-
-            String secret_key = secretMap.get (api_key);
-            if (null == secret_key) {
-                // get from db
-                secret_key = "SPDSS543543";
-            }
-            String localSig = com.whty.aam.common.util.StringUtil.toMD5 (params + secret_key);
-            if (!sig.equals (localSig)) {
-                domain = new BaseDomain ();
-                domain.setRetCode (ConstantDefine.SYSTEM_PRARMS_SIG_ERROR);
-                domain.setMessage ("sig illegal");
-                return ImmediateFuture.newInstance (domain);
-            }
-
-        } catch (Exception e) {
-            log.error ("method=" + method + " check sig error:" + e.getMessage (), e);
-            domain = new BaseDomain ();
-            domain.setRetCode (ConstantDefine.SYSTEM_PRARMS_NULL);
-            domain.setMessage (e.getMessage ());
-            return ImmediateFuture.newInstance (domain);
-        }
-        return null;
-    }*/
-
     private static void checkParam(String key, String value) throws Exception {
         if (StringUtil.isEmpty(value)) {
             throw new Exception(key + " param must not be empty");
         }
     }
 
-    /**
-     * @Title: checkPhoneAttribution
-     * @Description:查询手机号码归属地
-     * @Author: wanq
-     * @Since:
-     * @param phone
-     * @return
-     */
-   /* public static String checkPhoneAttribution(String phone){
-        HttpURLConnection connection = null;
-        try {
-            String surl = SysConfFactory.getValueByKey ("check_phone_url");
-            if (!StringUtil.isEmpty (surl)) {
-                surl = surl.replaceFirst ("\\$\\{phone\\}", phone);
-                URL url = new URL (surl);
-                connection = (HttpURLConnection) url.openConnection ();
-                connection.setRequestProperty ("content-type", "text/html; charset=utf-8");
-                connection.setRequestMethod ("GET");
-                BufferedReader rd = new BufferedReader (new InputStreamReader (connection.getInputStream (),"utf-8"));
-
-                String temp = null;
-                StringBuffer sb = new StringBuffer ();
-                temp = rd.readLine ();
-                while (temp != null) {
-                    sb.append (temp);
-                    temp = rd.readLine ();
-                }
-                rd.close ();
-                connection.disconnect ();
-
-                String content = sb.toString ();
-                return content;
-            }
-
-        } catch (Exception e) {
-            log.error ("验证手机号归属地出错！" + e);
-        } finally {
-            if (connection != null) {
-                connection.disconnect ();
-            }
-        }
-        return null;
-    }*/
 }
