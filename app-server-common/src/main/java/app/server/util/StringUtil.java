@@ -1,12 +1,13 @@
-package app.server.ifs.utils;
+package app.server.util;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import java.security.MessageDigest;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
 
 /**
  * 字符串处理类
@@ -155,7 +156,7 @@ public class StringUtil {
      * @return
      */
     public static boolean isISBN(String isbn) {
-        if (StringUtil.isEmpty(isbn)) {
+        if (StringUtils.isEmpty(isbn)) {
             return false;
         }
         int len = isbn.length();
@@ -385,22 +386,6 @@ public class StringUtil {
         return false;
     }
 
-    /**
-     * 检查字符串是否为<code>null</code>或空字符串<code>""</code>。
-     * <pre>
-     * StringUtil.isEmpty(null)      = true
-     * StringUtil.isEmpty("")        = true
-     * StringUtil.isEmpty(" ")       = false
-     * StringUtil.isEmpty("bob")     = false
-     * StringUtil.isEmpty("  bob  ") = false
-     * </pre>
-     *
-     * @param str 要检查的字符串
-     * @return 如果为空, 则返回<code>true</code>
-     */
-    public static boolean isEmpty(String str) {
-        return ((str == null) || (str.trim().length() == 0));
-    }
 
     /**
      * 检查字符串是否不是<code>null</code>和空字符串<code>""</code>。

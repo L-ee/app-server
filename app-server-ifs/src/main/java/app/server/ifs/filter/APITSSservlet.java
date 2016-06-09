@@ -21,8 +21,6 @@ public class APITSSservlet extends HttpServlet {
 
     final long upload_token_expired = StringUtils.isEmpty(PropertiesConfig.getValueByKey("upload_token_expired")) ? 24 : Long.valueOf(PropertiesConfig.getValueByKey("upload_token_expired"));
     final long download_token_expired = StringUtils.isEmpty(PropertiesConfig.getValueByKey("download_token_expired")) ? 24 : Long.valueOf(PropertiesConfig.getValueByKey("download_token_expired"));
-    final String ACCESS_KEY = PropertiesConfig.getValueByKey("AK");
-    final String SECRET_KEY = PropertiesConfig.getValueByKey("SK");
     final String apiSignKeyWord = PropertiesConfig.getValueByKey("api_sign_keyword");
     final String apiVersion = PropertiesConfig.getValueByKey("api_version");
     final String iOSVersion = StringUtils.isEmpty(PropertiesConfig.getValueByKey("iOS_version")) ? "1.0" : PropertiesConfig.getValueByKey("iOS_version");
@@ -37,7 +35,7 @@ public class APITSSservlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 通过枚举类型获取请求文件的头部信息集
-        Enumeration enumeration = req.getHeaderNames();
+        // Enumeration enumeration = req.getHeaderNames();
         String headder = req.getHeader("Content-Type");
         System.out.println("headder" + headder);
         /**

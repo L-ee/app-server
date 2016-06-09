@@ -16,6 +16,9 @@ public class InitSystemListener implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent sce){
+        /**
+         * 取得上下文对象
+         */
         ServletContext ctx = sce.getServletContext();
         SystemInitiator.initApp(ctx);
 
@@ -23,15 +26,9 @@ public class InitSystemListener implements ServletContextListener {
         config.initMapItem(ctx.getInitParameter("system.apiurl-confi"));
 
         System.out.println("Initial conf.properties ...");
-        initPropertesFile(ctx.getInitParameter("system.conf.properties"));
+        PropertiesConfig.getInstance().initPropertiesConfig(ctx.getInitParameter("system.conf.properties"));
 
     }
 
-
-    
-    private void initPropertesFile(String path){
-        PropertiesConfig.getInstance().initPropertiesConfig(path);
-    }
-    
     
 }

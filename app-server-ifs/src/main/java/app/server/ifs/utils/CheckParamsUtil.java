@@ -1,6 +1,7 @@
 package app.server.ifs.utils;
 
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -57,7 +58,7 @@ public class CheckParamsUtil {
                                 String minLnenth = paramElement.attributeValue("minLength");
                                 vo = new XmlParams();
                                 String name = paramElement.attributeValue("name");
-                                if (!StringUtil.isEmpty(name)) {
+                                if (!StringUtils.isEmpty(name)) {
                                     vo.setName(name.trim());
                                 }
                                 if (maxLength != null && maxLength.matches(reg)) {
@@ -67,26 +68,26 @@ public class CheckParamsUtil {
                                     vo.setMinLength(Integer.parseInt(minLnenth));
                                 }
                                 String isNull = paramElement.attributeValue("isNull");
-                                if (!StringUtil.isEmpty(isNull)) {
+                                if (!StringUtils.isEmpty(isNull)) {
                                     vo.setIsNull(isNull.trim());
                                 }
                                 String type = paramElement.attributeValue("type");
-                                if (!StringUtil.isEmpty(type)) {
+                                if (!StringUtils.isEmpty(type)) {
                                     vo.setType(type.trim());
                                 }
                                 String isValid = paramElement.attributeValue("isValid");
-                                if (!StringUtil.isEmpty(isValid)) {
+                                if (!StringUtils.isEmpty(isValid)) {
                                     vo.setIsValid(isValid.trim());
                                 }
                                 String regular = paramElement.attributeValue("regular");
-                                if (!StringUtil.isEmpty(regular)) {
+                                if (!StringUtils.isEmpty(regular)) {
                                     vo.setRegular(regular.trim());
                                 }
                                 list.add(vo);
                             }
                         }
                         String method = paramMapElement.attributeValue("method");
-                        if (!StringUtil.isEmpty(method)) {
+                        if (!StringUtils.isEmpty(method)) {
                             method = method.trim();
                             map.put(method, list);
                         }
@@ -139,14 +140,14 @@ public class CheckParamsUtil {
 
                 // 验证参数是否为空
                 if (para_is_not_null.equals(isNull)) {
-                    if (StringUtil.isEmpty(nameValue)) {
+                    if (StringUtils.isEmpty(nameValue)) {
                         msg.put("code", para_is_null_msg_code);
                         msg.put("msg", name + "[" + nameValue + "] is null");
                         log.error(method + ":" + msg);
                         return msg;
                     }
                 } else {
-                    if (StringUtil.isEmpty(nameValue)) {
+                    if (StringUtils.isEmpty(nameValue)) {
                         continue;
                     }
                 }
@@ -201,7 +202,7 @@ public class CheckParamsUtil {
     static Map<String, String> secretMap = new HashMap<String, String>();
 
     private static void checkParam(String key, String value) throws Exception {
-        if (StringUtil.isEmpty(value)) {
+        if (StringUtils.isEmpty(value)) {
             throw new Exception(key + " param must not be empty");
         }
     }
