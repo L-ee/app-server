@@ -1,4 +1,4 @@
-package app.server.util;
+package app.server.encrypt;
 
 import org.apache.commons.codec.binary.Base64;
 import sun.misc.BASE64Decoder;
