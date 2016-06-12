@@ -49,12 +49,11 @@ public class StringUtil {
     }
 
     /**
-     * 检测输入的邮政编码是否合法
-     *
+     * 邮政编码是否合法
      * @param code
      * @return
      */
-    public static boolean isPostCode(String code) {
+    public static boolean isPostNum(String code) {
         if (code == null) {
             return false;
         } else {
@@ -66,23 +65,20 @@ public class StringUtil {
 
 
     /**
-     * 屏掉WML不支持的代码
-     *
+     * 转义字符转换
      * @param str
      * @return
      */
-    public static String wmlEncode(String str) {
+    public static String transform(String str) {
         if (str == null) {
             return "";
         } else {
-            str = str.replaceAll("&", "&amp;");
-            str = str.replaceAll("<", "&lt;");
-            str = str.replaceAll(">", "&gt;");
-            str = str.replaceAll("'", "&apos;");
-            str = str.replaceAll("\"", "&quot;");
-            str = str.replaceAll("\n", "<br/>");
-            str = str.replaceAll("<br>", "<br/>");
-            return str;
+            return str.replaceAll("&", "&amp;")
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                    .replaceAll("'", "&apos;")
+                    .replaceAll("\"", "&quot;")
+                    .replaceAll("\n", "<br/>");
         }
     }
 
@@ -108,7 +104,7 @@ public class StringUtil {
 
 
     /**
-     * 检查书的ISBN号是否合法
+     * 检查国际标准书号（International Standard Book Number）是否合法,简称ISBN
      * @param isbn
      * @return
      */
@@ -224,41 +220,6 @@ public class StringUtil {
     public static String encodeString(String str) {
         Base64 encoder = new Base64();
         return String.valueOf(encoder.encode(str.getBytes())).trim();
-    }
-
-
-    /**
-     * <p>Checks if the String contains only unicode digits.
-     * A decimal point is not a unicode digit and returns false.</p>
-     * <p/>
-     * <p><code>null</code> will return <code>false</code>.
-     * An empty String ("") will return <code>true</code>.</p>
-     * <p/>
-     * <pre>
-     * StringUtils.isNumeric(null)   = false
-     * StringUtils.isNumeric("")     = true
-     * StringUtils.isNumeric("  ")   = false
-     * StringUtils.isNumeric("123")  = true
-     * StringUtils.isNumeric("12 3") = false
-     * StringUtils.isNumeric("ab2c") = false
-     * StringUtils.isNumeric("12-3") = false
-     * StringUtils.isNumeric("12.3") = false
-     * </pre>
-     *
-     * @param str the String to check, may be null
-     * @return <code>true</code> if only contains digits, and is non-null
-     */
-    public static boolean isNumeric(String str) {
-        if (str == null) {
-            return false;
-        }
-        int sz = str.length();
-        for (int i = 0; i < sz; i++) {
-            if (Character.isDigit(str.charAt(i)) == false) {
-                return false;
-            }
-        }
-        return true;
     }
 
 

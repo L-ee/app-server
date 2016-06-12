@@ -11,13 +11,11 @@ import java.util.*;
 import java.util.List;
 
 /**
- * 合成图片
+ * 根据图片数（最多九个）合成一张图片。例如：群头像的图片
  * @author 薛斌
  */
 public class MergeImage {
-    /*
-     * 合成图片的格式
-     */
+    // 合成的图片格式
     private static final String PICTRUE_FORMATE_JPG = "jpg";
 
     private final static List<Map<String, Point>> coordinateList = new ArrayList<Map<String, Point>>();
@@ -26,9 +24,6 @@ public class MergeImage {
     }
 
 
-    /*
-     * 最多有9张图片数
-     */
     public static String getCombinationOfhead(List<String> paths, int innerImageLength, int gapLength, boolean zoom) throws IOException {
 
         List<BufferedImage> bufferedImages = new ArrayList<BufferedImage>();
@@ -48,11 +43,11 @@ public class MergeImage {
         int height;
         int graphWidth;
         if (bufferedImages.size() >= 5) {
-            width = innerImageLength * 3 + gapLength * 4; // ���ǻ���Ŀ��
-            height = innerImageLength * 3 + gapLength * 4; // ���ǻ���ĸ߶�
+            width = innerImageLength * 3 + gapLength * 4;
+            height = innerImageLength * 3 + gapLength * 4;
         } else {
-            width = innerImageLength * 2 + gapLength * 3; // ���ǻ���Ŀ��
-            height = innerImageLength * 2 + gapLength * 3; // ���ǻ���ĸ߶�
+            width = innerImageLength * 2 + gapLength * 3;
+            height = innerImageLength * 2 + gapLength * 3;
         }
         graphWidth = width;
 
@@ -144,7 +139,6 @@ public class MergeImage {
                 }
             }
 
-            // ��Ҫ�ı���ɫ�Ļ������������ɫ�����ܻ��õ�AlphaComposite��
         }
 
         String outPath = "E:/img/" + UUID.randomUUID().toString().replaceAll("-","") + ".jpg";
