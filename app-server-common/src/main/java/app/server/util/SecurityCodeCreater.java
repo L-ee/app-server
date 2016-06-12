@@ -1,14 +1,10 @@
 package app.server.util;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.util.Random;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
  * 
@@ -154,7 +150,7 @@ public class SecurityCodeCreater {
 		// 此main方法用来测试生成的验证码图像
 
 		FileOutputStream fos = new FileOutputStream("D://test.jpg");
-		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(fos);
-		encoder.encode(getImage(getRandString()));
+		//JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(fos);
+		//encoder.encode(getImage(getRandString()));
 	}
 }
