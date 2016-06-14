@@ -1,6 +1,8 @@
 package app.server.encrypt;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Function: 加密算法工具类
@@ -8,6 +10,35 @@ import java.security.MessageDigest;
  * Date:    2016/6/12 14:14
  */
 public class EncryptUtils {
+
+    /*
+     * MD5 加密
+     */
+    public static String getMD5(String sourceStr) throws UnsupportedEncodingException {
+        String resultStr = "";
+        try {
+            byte[] temp = sourceStr.getBytes();
+
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+            md5.update(temp);
+
+            byte[] b = md5.digest();
+
+            for (int i = 0; i < b.length; i++) {
+                char[] digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
+                        '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+                char[] ob = new char[2];
+                ob[0] = digit[(b[i] >>> 4) & 0X0F];
+                ob[1] = digit[b[i] & 0X0F];
+                resultStr += new String(ob);
+            }
+            return resultStr;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     /**
