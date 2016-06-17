@@ -1,52 +1,99 @@
 package app.server.util;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 
 /**
- * 读取properties文件
+ * Function: 读取properties类型文件
+ * Author:  Lee
+ * Date:    2016/6/17 17:35
  */
 public class PropertiesUtil {
 
-	private static final String PROPERTY_FILE = "c:/data.properties";
+    // 内容容器
+    private Properties props = new Properties();
+    // 文件路径
+    private String path;
 
-	public static String readData(String key) {
-		Properties props = new Properties();
-		try {
-			InputStream in = new BufferedInputStream(new FileInputStream(
-					PROPERTY_FILE));
-			props.load(in);
-			in.close();
-			String value = props.getProperty(key);
-			return value;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    public PropertiesUtil(String path){
+        this.path = path;
+        InputStream in = null;
+        try {
+            in = new BufferedInputStream(new FileInputStream(path));
+            props.load(in);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(in != null){
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
-	public static void writeData(String key, String value) {
-		Properties prop = new Properties();
-		try {
-			File file = new File(PROPERTY_FILE);
-			if (!file.exists())
-				file.createNewFile();
-			InputStream fis = new FileInputStream(file);
-			prop.load(fis);
-			fis.close();
-			OutputStream fos = new FileOutputStream(PROPERTY_FILE);
-			prop.setProperty(key, value);
-			prop.store(fos, "Update '" + key + "' value");
-			fos.close();
-		} catch (IOException e) {
-			System.err.println("Visit " + PROPERTY_FILE + " for updating "
-					+ value + " value error");
-		}
-	}
+    /**
+     * 根据Key获取value的值
+     * @param key
+     * @return
+     */
+    public String getValue(String key) {
+        return props.getProperty(key);
+    }
+
+    /**
+     * 添加数据
+     * @param key
+     * @param value
+     */
+    public void writeData(String key, String value) {
+        OutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path);
+            this.props.setProperty(key, value);
+            this.props.store(fos, "Update '" + key + "' value");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fos != null){
+                try {
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 返回所有数据的集合
+     * @return
+     */
+    public List<Map<String,String>> getDataToList(){
+        List<Map<String, String>> list = new ArrayList<>();
+        Set<Map.Entry<Object, Object>> entries = this.props.entrySet();
+        for (Map.Entry<Object, Object> entry : entries) {
+            list.add(new HashMap<String, String>() {
+                {
+                    put((String) entry.getKey(), (String) entry.getValue());
+                }
+            });
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        PropertiesUtil util = new PropertiesUtil("D:/test.properties");
+        //System.out.println(util.getValue("test"));
+        //util.writeData("yyuu","iioo");
+        List<Map<String, String>> properties = util.getDataToList();
+        System.out.println("=========");
+    }
 }
