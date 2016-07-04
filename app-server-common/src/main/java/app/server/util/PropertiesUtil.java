@@ -90,10 +90,19 @@ public class PropertiesUtil {
     }
 
     public static void main(String[] args) {
-        PropertiesUtil util = new PropertiesUtil("D:/test.properties");
+        //PropertiesUtil util = new PropertiesUtil("D:/test.properties");
         //System.out.println(util.getValue("test"));
         //util.writeData("yyuu","iioo");
-        List<Map<String, String>> properties = util.getDataToList();
-        System.out.println("=========");
+        //List<Map<String, String>> properties = util.getDataToList();
+        //System.out.println("=========");
+        //Integer i = null;
+        //System.out.println((Integer)i);
+        String c = "cc";
+        String d = new String("cc");
+
+        System.out.println(c == d);
+        System.out.println(c.equals(d));
+
+
     }
 }
