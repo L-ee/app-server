@@ -7,6 +7,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class MergeImage {
                 bufferedImages.add(MergeImage.resize2(paths.get(i), innerImageLength, innerImageLength, true));
             } else {
                 File f = new File(paths.get(i));
+                URL url = new URL(paths.get(i));
+
+
                 BufferedImage bi = ImageIO.read(f);
                 bufferedImages.add(bi);
             }
@@ -152,16 +156,16 @@ public class MergeImage {
     public static void main(String[] args) throws IOException {
         long start = System.currentTimeMillis();
         List<String> list = new ArrayList<String>();
-        list.add("E:/img/1.jpg");
-        list.add("E:/img/2.jpg");
+        list.add("E:/img/1.png");
+        list.add("E:/img/1.png");
         //list.add("E:/img/3.jpg");
         //list.add("E:/img/4.jpg");
         //list.add("E:/img/5.jpg");
         //list.add("E:/img/6.jpg");
         //list.add("E:/img/7.jpg");
         //list.add("E:/img/8.jpg");
-        list.add("E:/img/10.jpg");
-        MergeImage.getCombinationOfhead(list, 70, 10, true);
+        list.add("E:/img/1.png");
+        MergeImage.getCombinationOfhead(list, 70, 10, false);
         long end = System.currentTimeMillis();
         System.out.println(end - start);
 
