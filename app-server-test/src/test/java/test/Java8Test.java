@@ -1,7 +1,6 @@
 package test;
 
 import model.Person;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
  */
 public class Java8Test {
 
-    @Test
     public void test(){
 
 
