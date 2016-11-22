@@ -3,6 +3,7 @@ package app.server.test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,32 @@ public class Java8Test {
 
     public static void main(String[] args) {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /*List<Integer> list = new ArrayList<>();
         for (int i = 0 ; i<20 ; i++){
             list.add(i);
@@ -26,18 +53,45 @@ public class Java8Test {
 //      str.forEach(n -> System.out.println(n));
 //        str.forEach(System.out::println);
 
-        String a = "123,125,589,65,25";
+//        String a = "123,125,589,65,25";
 
-        Pattern compile = Pattern.compile("^[0-9]+$");
+//        Pattern compile = Pattern.compile("^[0-9]+$");
         //System.out.println(a.contains(",25,"));
         //System.out.println(a.startsWith(",123"));
-        Matcher matcher = compile.matcher("1233dd223");
-        System.out.println(matcher.find());
+//        Matcher matcher = compile.matcher("1233dd223");
+//        System.out.println(matcher.find());
+
+//        Optional.ofNullable(a).ifPresent(System.out::println);
 
         //System.out.println(117 == new Integer(null).intValue());
 
+        List<Integer> list = primeNumber(20);
+        System.out.println(list);
 
 
+    }
+
+
+
+
+    public static List<Integer> primeNumber(int num){
+        if(num < 2){
+            return null;
+        }
+
+        List<Integer> list = new ArrayList<Integer>();
+
+        while (num-- > 2){
+            int temp = num;
+            --temp;
+            while (num % temp != 1 && temp >= 1){
+                temp--;
+                if(temp == 1){
+                    list.add(num);
+                }
+            }
+        }
+        return list;
     }
 
 
