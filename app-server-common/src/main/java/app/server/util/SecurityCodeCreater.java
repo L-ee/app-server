@@ -5,11 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.util.Random;
 
-
 /**
- * 
  * 生成验证码
- * 
  * @author lee 2015-10-16
  */
 public class SecurityCodeCreater {
@@ -60,11 +57,8 @@ public class SecurityCodeCreater {
 
 	/**
 	 * 生成随机颜色
-	 * 
-	 * @param ll
-	 *            产生颜色值下限(lower limit)
-	 * @param ul
-	 *            产生颜色值上限(upper limit)
+	 * @param ll 产生颜色值下限(lower limit)
+	 * @param ul 产生颜色值上限(upper limit)
 	 * @return 生成的随机颜色对象
 	 */
 	private static Color getRandColor(int ll, int ul) {
@@ -87,37 +81,25 @@ public class SecurityCodeCreater {
 
 	/**
 	 * 生成指定字符串的图像数据
-	 * 
-	 * @param verifyCode
-	 *            即将被打印的随机字符串
+	 * @param verifyCode 即将被打印的随机字符串
 	 * @return 生成的图像数据
 	 * */
 	private static BufferedImage getImage(String verifyCode) {
-
 		// 生成画布
-		BufferedImage image = new BufferedImage(IMAGEWIDTH * CODE_LENGTH,
-				IMAGEHEIGHT, BufferedImage.TYPE_INT_RGB);
-
+		BufferedImage image = new BufferedImage(IMAGEWIDTH * CODE_LENGTH, IMAGEHEIGHT, BufferedImage.TYPE_INT_RGB);
 		// 获取图形上下文 （生成画笔）
 		Graphics graphics = image.getGraphics();
-
 		// 设置背景色（）
 		graphics.setColor(getRandColor(1, 50));
-
 		// 填充矩形区域 ，作为背景
 		graphics.fillRect(0, 0, IMAGEWIDTH * 4, IMAGEHEIGHT);
-
 		// 设置边框颜色
 		graphics.setColor(new Color(0, 255, 0));
-
 		// 画出边框
 		for (int i = 0; i < 2; i++)
-			graphics.drawRect(i, i, IMAGEWIDTH * CODE_LENGTH - i * 2 - 1,
-					IMAGEHEIGHT - i * 2 - 1);
-
+			graphics.drawRect(i, i, IMAGEWIDTH * CODE_LENGTH - i * 2 - 1, IMAGEHEIGHT - i * 2 - 1);
 		// 设置随机干扰线条颜色
 		graphics.setColor(getRandColor(50, 100));
-
 		// 产生50条干扰线条
 		for (int i = 0; i < 50; i++) {
 			int x1 = random.nextInt(IMAGEWIDTH * CODE_LENGTH - 4) + 2;
@@ -126,29 +108,21 @@ public class SecurityCodeCreater {
 			int y2 = y1;
 			graphics.drawLine(x1, y1, x2, y2);
 		}
-
 		// 设置字体
 		graphics.setFont(new Font("Times New Roman", Font.PLAIN, FONTSIZE));
-
 		// 画字符串
 		for (int i = 0; i < CODE_LENGTH; i++) {
-
 			String temp = verifyCode.substring(i, i + 1);
 			graphics.setColor(getRandColor(100, 255));
 			graphics.drawString(temp, 13 * i + 6, 16);
 		}
-
 		// 图像生效
 		graphics.dispose();
-
 		return image;
-
 	}
 
 	public static void main(String[] args) throws Exception {
-
 		// 此main方法用来测试生成的验证码图像
-
 		FileOutputStream fos = new FileOutputStream("D://test.jpg");
 		//JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(fos);
 		//encoder.encode(getImage(getRandString()));

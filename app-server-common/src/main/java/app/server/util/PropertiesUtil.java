@@ -77,9 +77,9 @@ public class PropertiesUtil {
      * @return
      */
     public List<Map<String,String>> getDataToList(){
-        List<Map<String, String>> list = new ArrayList<>();
+        List<Map<String, String>> list = new ArrayList();
         Set<Map.Entry<Object, Object>> entries = this.props.entrySet();
-        for (Map.Entry<Object, Object> entry : entries) {
+        for (final Map.Entry<Object, Object> entry : entries) {
             list.add(new HashMap<String, String>() {
                 {
                     put((String) entry.getKey(), (String) entry.getValue());
