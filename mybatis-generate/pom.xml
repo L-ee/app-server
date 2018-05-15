@@ -15,9 +15,6 @@
     </dependencies>
     <build>
         <finalName>mybatis-generate</finalName>
-
-
-
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
