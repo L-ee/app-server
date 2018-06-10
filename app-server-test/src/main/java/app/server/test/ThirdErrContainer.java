@@ -72,17 +72,13 @@ public class ThirdErrContainer {
             while((read=bufferedReader.readLine())!= null){
                 result.append(read);
             }
-
             System.out.println(new Throwable().getStackTrace()[1].getMethodName());
-
             new File(path).delete();
-
             return result.toString();
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }finally{
-
             if(bufferedReader!=null){
                 try {
                     bufferedReader.close();
@@ -90,7 +86,6 @@ public class ThirdErrContainer {
                     e.printStackTrace();
                 }
             }
-
             if(fileReader!=null){
                 try {
                     fileReader.close();
@@ -98,15 +93,10 @@ public class ThirdErrContainer {
                     e.printStackTrace();
                 }
             }
-
         }
-
     }
 
-
-
     public static void main(String[] args) {
-
 /*        Queue<Map<String, Object>> queue = ThirdErrContainer.data;
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("url","222255");
@@ -114,13 +104,8 @@ public class ThirdErrContainer {
         queue.add(map);
         String transfer = ThirdErrContainer.transfer(queue);
         System.out.println(transfer);*/
-
         //System.out.println(ThirdErrContainer.write(transfer));
-
         System.out.println(ThirdErrContainer.read("data.txt"));
-
-
-
         Queue<Map<String,Object>> reverse = ThirdErrContainer.reverse(ThirdErrContainer.read("data.txt"), new LinkedBlockingQueue<>());
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("url","222255");
@@ -133,8 +118,5 @@ public class ThirdErrContainer {
             System.out.println(m.get("url"));
             System.out.println(m.get("params"));
         }*/
-
     }
-
-
 }

@@ -32,9 +32,7 @@ public class CountDownLatchTest {
                 e.printStackTrace();
             }
             latch.countDown();
-
         });
-
         Thread t3 = new Thread(() -> {
             System.out.println("任务3，执行开始！");
             System.out.println("任务3，执行完成！");
@@ -46,22 +44,8 @@ public class CountDownLatchTest {
             latch.countDown();
 
         });
-
-
         t1.start();
         t2.start();
         t3.start();
-
-
-
-
-
-
-
-
-
-
     }
-
-
 }
