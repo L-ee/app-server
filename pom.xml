@@ -10,7 +10,6 @@
     <modules>
         <module>app-server-excel</module>
         <module>mybatis-generate</module>
-        <module>app-server-ifs</module>
         <module>app-server-test</module>
     </modules>
     <packaging>pom</packaging>
